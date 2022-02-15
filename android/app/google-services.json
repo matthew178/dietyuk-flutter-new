@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "753224120111",
+    "project_id": "dietyuk-3cc68",
+    "storage_bucket": "dietyuk-3cc68.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:753224120111:android:f4bb5a1e864816f5fe13da",
+        "android_client_info": {
+          "package_name": "com.example.dietyuk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "753224120111-08u3vek28e6b42d1lsoil6dijtnag0cc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAplXHhvfMzY7wU7LvoMevNBt4D2xl4Gn0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "753224120111-08u3vek28e6b42d1lsoil6dijtnag0cc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:753224120111:android:204e19b32b378737fe13da",
+        "android_client_info": {
+          "package_name": "com.healthyapp.dietyukapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "753224120111-08u3vek28e6b42d1lsoil6dijtnag0cc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAplXHhvfMzY7wU7LvoMevNBt4D2xl4Gn0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "753224120111-08u3vek28e6b42d1lsoil6dijtnag0cc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
