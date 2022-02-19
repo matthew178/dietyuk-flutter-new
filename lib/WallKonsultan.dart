@@ -2,7 +2,7 @@ import 'ClassKategoriProduk.dart';
 import 'ClassPaket.dart';
 import 'ClassProduk.dart';
 import 'ClassUser.dart';
-import 'Daftarprodukmember.dart';
+import 'DaftarProdukMember.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -10,7 +10,7 @@ import 'session.dart' as session;
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-import 'ProdukDetail.dart';
+import 'produkdetail.dart';
 import 'DetailPaket.dart';
 
 class WallKonsultan extends StatefulWidget {

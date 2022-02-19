@@ -5,8 +5,8 @@ import 'session.dart' as session;
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-import 'Provinsi.dart';
-import 'Kota.dart';
+import 'provinsi.dart';
+import 'kota.dart';
 
 class TambahAlamat extends StatefulWidget {
   @override

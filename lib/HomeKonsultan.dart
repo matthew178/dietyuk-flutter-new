@@ -1,3 +1,7 @@
+import 'package:dietyukapp/DaftarPaketKonsultan.dart';
+import 'package:dietyukapp/DaftarProduk.dart';
+import 'package:dietyukapp/PilihOrder.dart';
+
 import 'DaftarPaket.dart';
 import 'DaftarProdukMember.dart';
 import 'DaftarTransaksiMember.dart';
@@ -13,12 +17,12 @@ import 'dart:convert';
 import 'ClassUser.dart';
 import 'package:intl/intl.dart';
 
-class HomePageMember extends StatefulWidget {
+class Homekonsultan extends StatefulWidget {
   @override
-  HomePageMemberState createState() => HomePageMemberState();
+  HomekonsultanState createState() => HomekonsultanState();
 }
 
-class HomePageMemberState extends State<HomePageMember> {
+class HomekonsultanState extends State<Homekonsultan> {
   NumberFormat frmt = new NumberFormat(',000');
 
   String foto = session.ipnumber + "/gambar/wanita.png";
@@ -95,11 +99,9 @@ class HomePageMemberState extends State<HomePageMember> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        // backgroundColor: Colors.yellow,
         body: Stack(
       children: <Widget>[
         Container(
-          // height: size.height * .3,
           decoration: BoxDecoration(
               image: DecorationImage(
                   alignment: Alignment.topCenter,
@@ -190,7 +192,7 @@ class HomePageMemberState extends State<HomePageMember> {
                                             .then((value) => getProfile());
                                       },
                                       child: Text(
-                                        'Top Up',
+                                        'Tarik Saldo',
                                         style: session.kBodyText.copyWith(
                                             fontWeight: FontWeight.bold),
                                       ),
@@ -215,7 +217,8 @@ class HomePageMemberState extends State<HomePageMember> {
                               Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => Daftarpaket()))
+                                          builder: (context) =>
+                                              Daftarpaketkonsultan()))
                                   .then((value) => getProfile());
                             },
                             child: Card(
@@ -242,7 +245,7 @@ class HomePageMemberState extends State<HomePageMember> {
                             Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => PilihProduk()))
+                                        builder: (context) => DaftarProduk()))
                                 .then((value) => getProfile());
                           },
                           child: Card(
@@ -270,8 +273,7 @@ class HomePageMemberState extends State<HomePageMember> {
                             Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            Daftartransaksimember()))
+                                        builder: (context) => PilihOrder()))
                                 .then((value) => getProfile());
                           },
                           child: Card(
@@ -287,7 +289,7 @@ class HomePageMemberState extends State<HomePageMember> {
                                 ),
                                 SizedBox(height: 3),
                                 Text(
-                                  "Paket Saya",
+                                  "Pesanan Saya",
                                   style: session.cardStyle,
                                 )
                               ],

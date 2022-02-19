@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-import 'Provinsi.dart';
-import 'Kota.dart';
+import 'provinsi.dart';
+import 'kota.dart';
 // import 'package:fluttertoast/fluttertoast.dart';
 
 class Register extends StatefulWidget {

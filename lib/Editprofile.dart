@@ -1,6 +1,6 @@
 import 'package:fluttertoast/fluttertoast.dart';
 
-import 'Kota.dart';
+import 'kota.dart';
 import 'session.dart' as session;
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -10,7 +10,7 @@ import 'ClassUser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'dart:io';
-import 'Provinsi.dart';
+import 'provinsi.dart';
 
 class Editprofile extends StatefulWidget {
   @override

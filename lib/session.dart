@@ -4,8 +4,8 @@ import 'shoppingcart.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'ClassPaket.dart';
 import 'ClassAlamat.dart';
-import 'Kota.dart';
-import 'Provinsi.dart';
+import 'kota.dart';
+import 'provinsi.dart';
 
 String ipnumber = "https://dietyukyuk.com/public";
 int userlogin = 0;

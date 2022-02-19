@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
-
 import 'ClassUser.dart';
 import 'EditJadwalBeli.dart';
 import 'JadwalHarian.dart';
@@ -13,7 +12,6 @@ import 'package:http/http.dart' as http;
 import 'ClassPaket.dart';
 import 'dart:async';
 import 'dart:convert';
-import 'dart:math';
 
 class AwalPaketKonsultan extends StatefulWidget {
   final String id;

@@ -1,5 +1,5 @@
 import 'package:badges/badges.dart';
-import 'Chat.dart';
+import 'chat.dart';
 import 'ClassProduk.dart';
 import 'WallKonsultan.dart';
 import 'shoppingcart.dart';

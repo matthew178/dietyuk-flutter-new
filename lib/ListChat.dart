@@ -1,9 +1,9 @@
-import 'package:dietyukapp/Chat.dart';
+import 'package:dietyukapp/chat.dart';
 import 'package:dietyukapp/ClassChat.dart';
 import 'package:dietyukapp/ClassUser.dart';
 
 import 'ClassKategoriProduk.dart';
-import 'Daftarprodukmember.dart';
+import 'DaftarProdukMember.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'session.dart' as session;

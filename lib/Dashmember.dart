@@ -1,10 +1,10 @@
-import 'package:dietyukapp/Chat.dart';
+import 'package:dietyukapp/chat.dart';
 import 'package:dietyukapp/ListChat.dart';
-import 'Daftartransaksimember.dart';
+import 'DaftarTransaksiMember.dart';
 import 'HomepageMember.dart';
 import 'package:flutter/material.dart';
 import 'session.dart' as session;
-import 'Myprofile.dart';
+import 'MyProfile.dart';
 
 class Dashmember extends StatefulWidget {
   @override
@@ -31,6 +31,7 @@ class DashmemberState extends State<Dashmember> {
     return Scaffold(
       body: bottomBar.elementAt(index),
       bottomNavigationBar: BottomNavigationBar(
+        showUnselectedLabels: false,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), title: Text("Home")),
           BottomNavigationBarItem(

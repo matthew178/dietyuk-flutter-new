@@ -1,5 +1,4 @@
 import 'package:dietyukapp/Withdrawsaldo.dart';
-import 'package:dietyukapp/perkembanganmember.dart';
 import 'Dashkonsultan.dart';
 import 'Dashmember.dart';
 import 'ForgotPassword.dart';
@@ -10,10 +9,8 @@ import 'package:flutter/material.dart';
 // import 'package:google_fonts/google_fonts.dart';
 import 'dart:async';
 import 'Login.dart';
-import 'Dashkonsultan.dart';
-import 'Dashmember.dart';
 import 'Tambahpaket.dart';
-import 'Editprofile.dart';
+import 'EditProfile.dart';
 import 'Saldo.dart';
 import 'Topup.dart';
 import 'TambahAlamat.dart';

@@ -9,7 +9,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'ProdukDetail.dart';
+import 'produkdetail.dart';
 import 'session.dart' as session;
 import 'package:fluttertoast/fluttertoast.dart';
 

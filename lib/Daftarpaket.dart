@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
 import 'dart:convert';
-import 'ClassPaket.dart';
 import 'package:intl/intl.dart';
 
 class Daftarpaket extends StatefulWidget {
