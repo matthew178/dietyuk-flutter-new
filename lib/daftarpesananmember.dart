@@ -1,4 +1,7 @@
 import 'package:dietyukapp/DetailTerimaProduk.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/painting.dart';
+import 'package:flutter/rendering.dart';
 
 import 'ClassTransaksiProdukJoin.dart';
 import 'DetailBeliProduk.dart';
@@ -11,12 +14,12 @@ import 'dart:async';
 import 'dart:convert';
 import 'ClassDetailBeliProduk.dart';
 
-class PesananProdukKonsultan extends StatefulWidget {
+class daftarpesananmember extends StatefulWidget {
   @override
-  PesananProdukKonsultanState createState() => PesananProdukKonsultanState();
+  daftarpesananmemberState createState() => daftarpesananmemberState();
 }
 
-class PesananProdukKonsultanState extends State<PesananProdukKonsultan> {
+class daftarpesananmemberState extends State<daftarpesananmember> {
   List<TransaksiProdukJoin> packing = new List();
   List<TransaksiProdukJoin> kirim = new List();
   List<TransaksiProdukJoin> selesai = new List();
@@ -35,7 +38,7 @@ class PesananProdukKonsultanState extends State<PesananProdukKonsultan> {
   Future<List<TransaksiProdukJoin>> getTransaksiPacking() async {
     List<TransaksiProdukJoin> arrTemp = new List();
     List<ClassDetailBeliProduk> arrTempDetail = new List();
-    Map paramData = {'konsultan': session.userlogin};
+    Map paramData = {'pemesan': session.userlogin};
     var parameter = json.encode(paramData);
     TransaksiProdukJoin databaru = new TransaksiProdukJoin(
         "id",
@@ -70,7 +73,7 @@ class PesananProdukKonsultanState extends State<PesananProdukKonsultan> {
         "varian",
         "foto");
     http
-        .post(Uri.parse(session.ipnumber + "/getTransaksiPacking"),
+        .post(Uri.parse(session.ipnumber + "/getTransaksiPackingMember"),
             headers: {"Content-Type": "application/json"}, body: parameter)
         .then((res) {
       print(res.body);
@@ -127,7 +130,7 @@ class PesananProdukKonsultanState extends State<PesananProdukKonsultan> {
   Future<List<TransaksiProdukJoin>> getTransaksiKirim() async {
     List<TransaksiProdukJoin> arrTemp = new List();
     List<ClassDetailBeliProduk> arrTempDetail = new List();
-    Map paramData = {'konsultan': session.userlogin};
+    Map paramData = {'pemesan': session.userlogin};
     var parameter = json.encode(paramData);
     TransaksiProdukJoin databaru = new TransaksiProdukJoin(
         "id",
@@ -162,7 +165,7 @@ class PesananProdukKonsultanState extends State<PesananProdukKonsultan> {
         "varian",
         "foto");
     http
-        .post(Uri.parse(session.ipnumber + "/getTransaksiProdukKirim"),
+        .post(Uri.parse(session.ipnumber + "/getTransaksiKirimMember"),
             headers: {"Content-Type": "application/json"}, body: parameter)
         .then((res) {
       print(res.body);
@@ -219,7 +222,7 @@ class PesananProdukKonsultanState extends State<PesananProdukKonsultan> {
   Future<List<TransaksiProdukJoin>> getTransaksiSelesai() async {
     List<TransaksiProdukJoin> arrTemp = new List();
     List<ClassDetailBeliProduk> arrTempDetail = new List();
-    Map paramData = {'konsultan': session.userlogin};
+    Map paramData = {'pemesan': session.userlogin};
     var parameter = json.encode(paramData);
     TransaksiProdukJoin databaru = new TransaksiProdukJoin(
         "id",
@@ -254,7 +257,7 @@ class PesananProdukKonsultanState extends State<PesananProdukKonsultan> {
         "varian",
         "foto");
     http
-        .post(Uri.parse(session.ipnumber + "/getTransaksiProdukSelesai"),
+        .post(Uri.parse(session.ipnumber + "/getTransaksiSelesaiMember"),
             headers: {"Content-Type": "application/json"}, body: parameter)
         .then((res) {
       print(res.body);
@@ -589,7 +592,10 @@ class PesananProdukKonsultanState extends State<PesananProdukKonsultan> {
                                                         "Pembeli : " +
                                                             kirim[index].nama,
                                                         style: TextStyle(
-                                                            fontSize: 15),
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
                                                       )),
                                                 ],
                                               ),
@@ -609,7 +615,8 @@ class PesananProdukKonsultanState extends State<PesananProdukKonsultan> {
                                                             kirim[index]
                                                                 .nopesanan,
                                                         style: TextStyle(
-                                                            fontSize: 15),
+                                                            fontSize: 15,
+                                                            color: Colors.grey),
                                                       )
                                                     ],
                                                   )),
@@ -643,7 +650,10 @@ class PesananProdukKonsultanState extends State<PesananProdukKonsultan> {
                                                             detailkirim[index]
                                                                 .varian,
                                                         style: TextStyle(
-                                                            fontSize: 15),
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
                                                       )),
                                                   SizedBox(height: 25),
                                                   Container(
@@ -653,15 +663,27 @@ class PesananProdukKonsultanState extends State<PesananProdukKonsultan> {
                                                           CrossAxisAlignment
                                                               .end,
                                                       children: [
-                                                        Text("x" +
-                                                            detailkirim[index]
-                                                                .jumlah),
-                                                        SizedBox(height: 10),
-                                                        Text("Rp. " +
-                                                            frmt.format(int.parse(
+                                                        Text(
+                                                            "x" +
                                                                 detailkirim[
                                                                         index]
-                                                                    .subtotal)))
+                                                                    .jumlah,
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold)),
+                                                        SizedBox(height: 10),
+                                                        Text(
+                                                          "Rp. " +
+                                                              frmt.format(int.parse(
+                                                                  detailkirim[
+                                                                          index]
+                                                                      .subtotal)),
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        )
                                                       ],
                                                     ),
                                                   )
@@ -674,47 +696,21 @@ class PesananProdukKonsultanState extends State<PesananProdukKonsultan> {
                                               width: MediaQuery.of(context)
                                                   .size
                                                   .width,
-                                              child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
+                                              child: Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.end,
                                                   children: [
-                                                    Expanded(
-                                                        flex: 2,
-                                                        child: Text(
-                                                          kirim[index].nomorresi ==
-                                                                  ""
-                                                              ? "Input Nomor Resi"
-                                                              : "",
-                                                          style: TextStyle(
-                                                              color: kirim[index]
-                                                                          .nomorresi ==
-                                                                      ""
-                                                                  ? Colors.red
-                                                                  : Colors
-                                                                      .white,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 15),
-                                                        )),
-                                                    Expanded(child: SizedBox()),
-                                                    Expanded(
-                                                      flex: 3,
-                                                      child: Text(
-                                                        "Total Pesanan : Rp. " +
-                                                            frmt.format(
-                                                                int.parse(kirim[
-                                                                        index]
-                                                                    .total
-                                                                    .toString())),
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 15),
-                                                      ),
-                                                    )
+                                                    Text(
+                                                      "Total Pesanan : Rp. " +
+                                                          frmt.format(int.parse(
+                                                              kirim[index]
+                                                                  .total
+                                                                  .toString())),
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 15),
+                                                    ),
                                                   ])),
                                           SizedBox(height: 5)
                                         ],
@@ -730,7 +726,16 @@ class PesananProdukKonsultanState extends State<PesananProdukKonsultan> {
                                 return Image.asset("assets/images/nodata.png");
                               } else {
                                 return GestureDetector(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      DetailBeliProduk(
+                                                          idbeli: selesai[index]
+                                                              .id)))
+                                          .then((value) => getDataUlang());
+                                    },
                                     child: Card(
                                       child: Column(
                                         crossAxisAlignment:
@@ -756,7 +761,10 @@ class PesananProdukKonsultanState extends State<PesananProdukKonsultan> {
                                                         "Pembeli : " +
                                                             selesai[index].nama,
                                                         style: TextStyle(
-                                                            fontSize: 15),
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
                                                       )),
                                                 ],
                                               ),
@@ -776,7 +784,8 @@ class PesananProdukKonsultanState extends State<PesananProdukKonsultan> {
                                                             selesai[index]
                                                                 .nopesanan,
                                                         style: TextStyle(
-                                                            fontSize: 15),
+                                                            fontSize: 15,
+                                                            color: Colors.grey),
                                                       )
                                                     ],
                                                   )),
@@ -810,7 +819,10 @@ class PesananProdukKonsultanState extends State<PesananProdukKonsultan> {
                                                             detailselesai[index]
                                                                 .varian,
                                                         style: TextStyle(
-                                                            fontSize: 15),
+                                                            fontSize: 15,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
                                                       )),
                                                   SizedBox(height: 25),
                                                   Container(
@@ -820,15 +832,28 @@ class PesananProdukKonsultanState extends State<PesananProdukKonsultan> {
                                                           CrossAxisAlignment
                                                               .end,
                                                       children: [
-                                                        Text("x" +
-                                                            detailselesai[index]
-                                                                .jumlah),
+                                                        Text(
+                                                          "x" +
+                                                              detailselesai[
+                                                                      index]
+                                                                  .jumlah,
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
                                                         SizedBox(height: 10),
-                                                        Text("Rp. " +
-                                                            frmt.format(int.parse(
-                                                                detailselesai[
-                                                                        index]
-                                                                    .subtotal)))
+                                                        Text(
+                                                          "Rp. " +
+                                                              frmt.format(int.parse(
+                                                                  detailselesai[
+                                                                          index]
+                                                                      .subtotal)),
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        )
                                                       ],
                                                     ),
                                                   )

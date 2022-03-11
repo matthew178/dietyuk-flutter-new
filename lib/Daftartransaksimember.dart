@@ -128,6 +128,7 @@ class DaftartransaksimemberState extends State<Daftartransaksimember> {
             headers: {"Content-Type": "application/json"}, body: parameter)
         .then((res) {
       Fluttertoast.showToast(msg: "Berhasil kirim rating");
+      getTransaksiSelesai();
     }).catchError((err) {
       print(err);
     });
@@ -477,24 +478,24 @@ class DaftartransaksimemberState extends State<Daftartransaksimember> {
                         ),
                       ),
                       SizedBox(height: 5),
-                      Container(
-                        child: new RaisedButton(
-                          onPressed: () {
-                            laporKonsultan();
-                          },
-                          padding: new EdgeInsets.all(16.0),
-                          color: Colors.red,
-                          child: new Text(
-                            'Lapor Konsultan',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18.0,
-                              fontFamily: 'helvetica_neue_light',
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
+                      // Container(
+                      //   child: new RaisedButton(
+                      //     onPressed: () {
+                      //       laporKonsultan();
+                      //     },
+                      //     padding: new EdgeInsets.all(16.0),
+                      //     color: Colors.red,
+                      //     child: new Text(
+                      //       'Lapor Konsultan',
+                      //       style: TextStyle(
+                      //         color: Colors.white,
+                      //         fontSize: 18.0,
+                      //         fontFamily: 'helvetica_neue_light',
+                      //       ),
+                      //       textAlign: TextAlign.center,
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ],
@@ -752,7 +753,6 @@ class DaftartransaksimemberState extends State<Daftartransaksimember> {
 
   Future<String> aktivasiPaket(
       String id, String paket, String sttskonsultan) async {
-    print("id = " + id + " paket = " + paket);
     if (sttskonsultan == "Aktif") {
       Map paramData = {
         'id': id,
@@ -765,10 +765,8 @@ class DaftartransaksimemberState extends State<Daftartransaksimember> {
           .post(Uri.parse(session.ipnumber + "/aktivasiPaket"),
               headers: {"Content-Type": "application/json"}, body: parameter)
           .then((res) {
-        // print(res.body);
         var data = json.decode(res.body);
         data = data[0]['transaksi'];
-        print("transaksi = " + data.toString());
         getTransaksiBelumSelesai();
         transaksiOnProses();
         getTransaksiSelesai();
@@ -787,7 +785,6 @@ class DaftartransaksimemberState extends State<Daftartransaksimember> {
           .post(Uri.parse(session.ipnumber + "/refundPaket"),
               headers: {"Content-Type": "application/json"}, body: parameter)
           .then((res) {
-        // print(res.body);
         var data = json.decode(res.body);
         data = data[0]['transaksi'];
         print("transaksi = " + data.toString());
@@ -1017,9 +1014,12 @@ class DaftartransaksimemberState extends State<Daftartransaksimember> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => AwalPaket(
-                                                id: onProses[index].id,
-                                                paket:
-                                                    onProses[index].idpaket)));
+                                                  id: onProses[index].id,
+                                                  paket:
+                                                      onProses[index].idpaket,
+                                                  status:
+                                                      onProses[index].status,
+                                                )));
                                   },
                                   child: Card(
                                       child: Row(
@@ -1080,10 +1080,16 @@ class DaftartransaksimemberState extends State<Daftartransaksimember> {
                               return GestureDetector(
                                   onTap: () {
                                     selesai[index].status == "2"
-                                        ? Fluttertoast.showToast(
-                                            msg: selesai[index]
-                                                .status
-                                                .toString())
+                                        ? Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => AwalPaket(
+                                                      id: selesai[index].id,
+                                                      paket: selesai[index]
+                                                          .idpaket,
+                                                      status:
+                                                          selesai[index].status,
+                                                    )))
                                         : ratingReview(selesai[index].idpaket,
                                             selesai[index].id);
                                   },

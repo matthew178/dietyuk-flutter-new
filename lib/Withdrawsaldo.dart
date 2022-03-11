@@ -21,6 +21,8 @@ class WithdrawsaldoState extends State<Withdrawsaldo> {
   ClassBank bankyangdipilih = null;
   NumberFormat fmrt = new NumberFormat(",000");
   TextEditingController nominaltopup = new TextEditingController();
+  TextEditingController atasnama = new TextEditingController();
+  TextEditingController norek = new TextEditingController();
 
   ClassUser userprofile = new ClassUser(
       "", "", "", "", "", "", "", "", "", "", "", "", "0", "", "", "", "");
@@ -37,23 +39,22 @@ class WithdrawsaldoState extends State<Withdrawsaldo> {
         "assets/images/mandiri.png", "Matthew Hendry Sudarto"));
   }
 
-  Future<String> evtTopup() async {
+  void kirimRequestPenarikan() async {
     Map paramData = {
-      'saldo': nominaltopup.text,
-      'id_user': session.userlogin.toString(),
-      'bank': bankyangdipilih.nama
+      'bank': bankyangdipilih.nama,
+      'nominal': nominaltopup.text,
+      'atasnama': atasnama.text,
+      'norek': norek.text,
+      'username': session.userlogin
     };
     var parameter = json.encode(paramData);
-
     http
-        .post(Uri.parse(session.ipnumber + "/topup"),
+        .post(Uri.parse(session.ipnumber + "/kirimReqPenarikan"),
             headers: {"Content-Type": "application/json"}, body: parameter)
-        .then((res) {
-      print(res.body);
-    }).catchError((err) {
+        .then((res) {})
+        .catchError((err) {
       print(err);
     });
-    return "";
   }
 
   Future<ClassUser> getProfile() async {
@@ -97,41 +98,14 @@ class WithdrawsaldoState extends State<Withdrawsaldo> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("TOP UP SALDO"),
+        title: Text("PENARIKAN SALDO"),
         backgroundColor: session.warna,
       ),
       body: Center(
         child: ListView(
           children: [
-            SizedBox(height: 30),
             Container(
-              child: Container(
-                padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: Icon(
-                        AntDesign.wallet,
-                        color: Colors.blue[900],
-                        size: 50,
-                      ),
-                    ),
-                    Expanded(
-                      flex: 6,
-                      child: Text(
-                        "Disarankan untuk menghindari top up antara pukul 21.00 s/d 03.00 dikarenakan adanya cut off mutasi internet banking sehingga proses validasi pembayaran memerlukan waktu yang lama.",
-                        style: TextStyle(fontSize: 15),
-                        textAlign: TextAlign.justify,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: 30),
-            Container(
-              padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+              padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
               child: Container(
                 padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                 width: MediaQuery.of(context).size.width,
@@ -194,12 +168,6 @@ class WithdrawsaldoState extends State<Withdrawsaldo> {
                       borderRadius: BorderRadius.circular(15)),
                   child: TextField(
                     cursorColor: Colors.black,
-                    // onChanged: (content) {
-                    //   if (int.parse(nominaltopup.text) > 999) {
-                    //     nominaltopup.text =
-                    //         fmrt.format(int.parse(nominaltopup.text));
-                    //   }
-                    // },
                     controller: nominaltopup,
                     decoration: InputDecoration(
                         focusedBorder: InputBorder.none,
@@ -207,10 +175,60 @@ class WithdrawsaldoState extends State<Withdrawsaldo> {
                         errorBorder: InputBorder.none,
                         disabledBorder: InputBorder.none,
                         border: InputBorder.none,
-                        hintText: "Nominal",
+                        hintText: "Nominal Penarikan",
                         hintStyle: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.w500)),
                     keyboardType: TextInputType.number,
+                    textInputAction: TextInputAction.done,
+                  ),
+                )),
+            Container(
+                padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                  height: 50,
+                  // width: 200,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey, width: 1),
+                      borderRadius: BorderRadius.circular(15)),
+                  child: TextField(
+                    cursorColor: Colors.black,
+                    controller: norek,
+                    decoration: InputDecoration(
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        disabledBorder: InputBorder.none,
+                        border: InputBorder.none,
+                        hintText: "Nomor Rekening",
+                        hintStyle: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w500)),
+                    keyboardType: TextInputType.number,
+                    textInputAction: TextInputAction.done,
+                  ),
+                )),
+            Container(
+                padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
+                child: Container(
+                  padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+                  height: 50,
+                  // width: 200,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey, width: 1),
+                      borderRadius: BorderRadius.circular(15)),
+                  child: TextField(
+                    cursorColor: Colors.black,
+                    controller: atasnama,
+                    decoration: InputDecoration(
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        disabledBorder: InputBorder.none,
+                        border: InputBorder.none,
+                        hintText: "Atas Nama",
+                        hintStyle: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w500)),
+                    keyboardType: TextInputType.text,
                     textInputAction: TextInputAction.done,
                   ),
                 )),
@@ -225,28 +243,39 @@ class WithdrawsaldoState extends State<Withdrawsaldo> {
                     color: session.kBlue),
                 child: FlatButton(
                   onPressed: () {
-                    if (nominaltopup.text != "" && bankyangdipilih.nama != "") {
+                    if (nominaltopup.text != "" &&
+                        bankyangdipilih.nama != "" &&
+                        atasnama.text != "" &&
+                        norek.text != "") {
                       if (int.parse(nominaltopup.text) >= 20000) {
-                        // evtTopup();
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Topup2(
-                                    bank: bankyangdipilih,
-                                    nominal: nominaltopup.text.toString())));
+                        if (int.parse(userprofile.saldo) >
+                            int.parse(nominaltopup.text)) {
+                          kirimRequestPenarikan();
+                          Fluttertoast.showToast(
+                              msg: "Permintaan penarikan akan diproses admin");
+                          if (session.role == "member") {
+                            Navigator.pushNamed(this.context, "/member");
+                          } else if (session.role == "konsultan") {
+                            Navigator.pushNamed(this.context, "/konsultan");
+                          }
+                        } else {
+                          Fluttertoast.showToast(
+                              msg:
+                                  "Saldo anda tidak cukup untuk melakukan penarikan");
+                        }
                       } else {
                         Fluttertoast.showToast(
                             msg:
-                                "Mohon maaf, anda tidak bisa melakukan TopUp dibawah nominal Rp. 20.000");
+                                "Mohon maaf, anda tidak bisa melakukan penarikan dibawah Rp. 20.000");
                       }
                     } else {
                       Fluttertoast.showToast(
                           msg:
-                              "Mohon pilih bank dan isi saldo yang akan diTopUp");
+                              "Mohon pilih bank dan mengisi nominal penarikan, nomor rekening beserta nama pemilik rekening");
                     }
                   },
                   child: Text(
-                    'Top Up Saldo',
+                    'Submit',
                     style:
                         session.kBodyText.copyWith(fontWeight: FontWeight.bold),
                   ),

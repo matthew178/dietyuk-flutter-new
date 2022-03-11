@@ -9,16 +9,16 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:intl/intl.dart';
 
-class DetailBeliProduk extends StatefulWidget {
+class DetailTerimaProduk extends StatefulWidget {
   final String idbeli;
 
-  DetailBeliProduk({Key key, @required this.idbeli}) : super(key: key);
+  DetailTerimaProduk({Key key, @required this.idbeli}) : super(key: key);
 
   @override
-  DetailBeliProdukState createState() => DetailBeliProdukState(this.idbeli);
+  DetailTerimaProdukState createState() => DetailTerimaProdukState(this.idbeli);
 }
 
-class DetailBeliProdukState extends State<DetailBeliProduk> {
+class DetailTerimaProdukState extends State<DetailTerimaProduk> {
   String idbeli;
   TextEditingController edt = new TextEditingController();
   List<ClassDetailBeliProduk> arrDetail = new List();
@@ -46,36 +46,31 @@ class DetailBeliProdukState extends State<DetailBeliProduk> {
       "0",
       "0");
   bool lihat = false;
-  DetailBeliProdukState(this.idbeli);
+  DetailTerimaProdukState(this.idbeli);
 
-  void terimaPesanan() async {
-    Map paramData = {'idbeli': this.idbeli};
+  void updateResi() async {
+    Map paramData = {'idbeli': this.idbeli, 'resi': edt.text};
     var parameter = json.encode(paramData);
     http
-        .post(Uri.parse(session.ipnumber + "/terimaPesanan"),
+        .post(Uri.parse(session.ipnumber + "/updateResi"),
             headers: {"Content-Type": "application/json"}, body: parameter)
         .then((res) {
       Navigator.pop(context);
-      Fluttertoast.showToast(msg: "Berhasil terima pesanan");
+      Fluttertoast.showToast(msg: "Berhasil Input Resi");
     }).catchError((err) {
       print(err);
     });
   }
 
-  void tolakTrans() async {
-    Map paramData = {
-      'idbeli': this.idbeli,
-      'keterangan': edt.text,
-      'pembeli': header.pemesan
-    };
+  void selesaikanPesanan() async {
+    Map paramData = {'idbeli': this.idbeli};
     var parameter = json.encode(paramData);
     http
-        .post(Uri.parse(session.ipnumber + "/tolakTransaksiProduk"),
+        .post(Uri.parse(session.ipnumber + "/selesaikanPesananMember"),
             headers: {"Content-Type": "application/json"}, body: parameter)
         .then((res) {
-      print("selesai");
       Navigator.pop(context);
-      Fluttertoast.showToast(msg: "Berhasil tolak pesanan");
+      Fluttertoast.showToast(msg: "Berhasil Input Resi");
     }).catchError((err) {
       print(err);
     });
@@ -99,7 +94,7 @@ class DetailBeliProdukState extends State<DetailBeliProduk> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 5),
-                  Text("Alasan :"),
+                  Text("Nomor Resi :"),
                   Container(
                     decoration: BoxDecoration(
                         border: Border.all(),
@@ -120,10 +115,10 @@ class DetailBeliProdukState extends State<DetailBeliProduk> {
                         onPressed: () {
                           if (edt.text.isEmpty || edt.text == "") {
                             Fluttertoast.showToast(
-                                msg: "Alasan tidak boleh kosong!",
+                                msg: "Nomor Resi tidak boleh kosong!",
                                 backgroundColor: Colors.red);
                           } else {
-                            tolakTrans();
+                            updateResi();
                             Navigator.pop(context);
                             Navigator.of(context, rootNavigator: true)
                                 .pop(true);
@@ -137,6 +132,81 @@ class DetailBeliProdukState extends State<DetailBeliProduk> {
                       ),
                     ),
                   ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return dialog;
+        });
+  }
+
+  void showAlertLain() {
+    AlertDialog dialog = new AlertDialog(
+      content: new Container(
+        width: 260.0,
+        height: 230.0,
+        decoration: new BoxDecoration(
+          shape: BoxShape.rectangle,
+          color: const Color(0xFFFFFF),
+          borderRadius: new BorderRadius.all(new Radius.circular(32.0)),
+        ),
+        child: new Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            new Expanded(
+              child: new Container(
+                  child: new Text(
+                      "Pesanan akan diselesaikan, dan uang akan masuk ke konsultan. Anda yakin ?")),
+              flex: 2,
+            ),
+            new Expanded(
+              child: Row(
+                children: [
+                  SizedBox(width: 30),
+                  Container(
+                    child: new RaisedButton(
+                      onPressed: () {
+                        selesaikanPesanan();
+                        Navigator.of(context, rootNavigator: true).pop(true);
+                      },
+                      padding: new EdgeInsets.all(16.0),
+                      color: Colors.green,
+                      child: new Text(
+                        'Ya',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18.0,
+                          fontFamily: 'helvetica_neue_light',
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 15),
+                  Container(
+                    child: new RaisedButton(
+                      onPressed: () {
+                        Navigator.of(context, rootNavigator: true).pop(true);
+                      },
+                      padding: new EdgeInsets.all(16.0),
+                      color: Colors.red,
+                      child: new Text(
+                        'Tidak',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18.0,
+                          fontFamily: 'helvetica_neue_light',
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),
@@ -208,7 +278,7 @@ class DetailBeliProdukState extends State<DetailBeliProduk> {
           header[0]['totalhargaproduk'].toString(),
           header[0]['ongkir'].toString());
       setState(() => this.header = temp);
-      print(this.header.status + " ini status");
+      print(this.header.nomorresi + " nomoreesi");
       setState(() => this.arrDetail = arrTemp);
       return arrTemp;
     }).catchError((err) {
@@ -252,11 +322,17 @@ class DetailBeliProdukState extends State<DetailBeliProduk> {
                 ]),
                 SizedBox(height: 10),
                 Text(
-                  header.service,
+                  "Kurir  : " + header.kurir,
                   style: TextStyle(fontSize: 15),
                 ),
                 Text(
-                  header.kurir,
+                  "Jenis Service : " + header.service,
+                  style: TextStyle(fontSize: 15),
+                ),
+                Text(
+                  header.nomorresi == ""
+                      ? "Nomor Resi : -"
+                      : "Nomor Resi : " + header.nomorresi,
                   style: TextStyle(fontSize: 15),
                 ),
                 Divider(color: Colors.black),
@@ -475,30 +551,36 @@ class DetailBeliProdukState extends State<DetailBeliProduk> {
               )),
           SizedBox(height: 10),
           session.role == "konsultan"
-              ? Row(
+              ? header.nomorresi == ""
+                  ? Row(
+                      children: [
+                        SizedBox(width: 10),
+                        Expanded(
+                            child: Center(
+                          child: Container(
+                            height: size.height * 0.08,
+                            width: size.width * 0.8,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16),
+                                color: Colors.green),
+                            child: FlatButton(
+                              onPressed: () {
+                                showAlert();
+                              },
+                              child: Text(
+                                'Input Resi',
+                                style: session.kBodyText
+                                    .copyWith(fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        )),
+                      ],
+                    )
+                  : SizedBox()
+              : Row(
                   children: [
                     SizedBox(width: 10),
-                    Expanded(
-                        child: Center(
-                      child: Container(
-                        height: size.height * 0.08,
-                        width: size.width * 0.8,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(16),
-                            color: Colors.green),
-                        child: FlatButton(
-                          onPressed: () {
-                            terimaPesanan();
-                          },
-                          child: Text(
-                            'Terima',
-                            style: session.kBodyText
-                                .copyWith(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                    )),
-                    SizedBox(width: 20),
                     Expanded(
                         child: Center(
                       child: Container(
@@ -509,37 +591,18 @@ class DetailBeliProdukState extends State<DetailBeliProduk> {
                             color: Colors.red),
                         child: FlatButton(
                           onPressed: () {
-                            showAlert();
+                            showAlertLain();
                           },
                           child: Text(
-                            'Tolak',
+                            'Selesaikan Pesanan',
                             style: session.kBodyText
                                 .copyWith(fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),
                     )),
-                    SizedBox(width: 10)
                   ],
-                )
-              : header.status == "0"
-                  ? SizedBox(
-                      child: Container(
-                        margin: EdgeInsets.only(left: 40, right: 40),
-                        padding: const EdgeInsets.all(6.0),
-                        decoration: BoxDecoration(
-                            color: Colors.yellow[100],
-                            border: Border.all(color: Colors.grey[400])),
-                        child: Text(
-                          "-- Menunggu Konfirmasi Konsultan --",
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.red,
-                              fontStyle: FontStyle.italic),
-                        ),
-                      ),
-                    )
-                  : SizedBox(),
+                ),
           SizedBox(height: 50)
         ],
       ),

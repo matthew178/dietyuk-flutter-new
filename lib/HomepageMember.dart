@@ -1,3 +1,5 @@
+import 'package:dietyukapp/daftarpesananmember.dart';
+
 import 'DaftarPaket.dart';
 import 'DaftarProdukMember.dart';
 import 'DaftarTransaksiMember.dart';
@@ -157,8 +159,8 @@ class HomePageMemberState extends State<HomePageMember> {
                             child: Center(
                               child: Row(
                                 children: [
-                                  Container(
-                                      margin: EdgeInsets.only(left: 10),
+                                  Expanded(
+                                      // margin: EdgeInsets.only(left: 10),
                                       child: int.parse(userprofile.saldo) > 1000
                                           ? Text(
                                               " Rp. " +
@@ -179,23 +181,26 @@ class HomePageMemberState extends State<HomePageMember> {
                                               ),
                                             )),
                                   SizedBox(width: 100),
-                                  Container(
-                                    margin: EdgeInsets.only(right: 0),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(16),
-                                        color: HexColor("#1e96fc")),
-                                    child: FlatButton(
-                                      onPressed: () {
-                                        Navigator.pushNamed(context, "/saldo")
-                                            .then((value) => getProfile());
-                                      },
-                                      child: Text(
-                                        'Top Up',
-                                        style: session.kBodyText.copyWith(
-                                            fontWeight: FontWeight.bold),
+                                  Expanded(
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                          color: HexColor("#1e96fc")),
+                                      child: FlatButton(
+                                        onPressed: () {
+                                          Navigator.pushNamed(context, "/saldo")
+                                              .then((value) => getProfile());
+                                        },
+                                        child: Text(
+                                          'Top Up',
+                                          style: session.kBodyText.copyWith(
+                                              fontWeight: FontWeight.bold),
+                                        ),
                                       ),
                                     ),
                                   ),
+                                  SizedBox(width: 5)
                                 ],
                               ),
                             )),
@@ -294,6 +299,34 @@ class HomePageMemberState extends State<HomePageMember> {
                             ),
                           ),
                         ),
+                        GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              daftarpesananmember()))
+                                  .then((value) => getProfile());
+                            },
+                            child: Card(
+                              elevation: 4,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50)),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Image.asset(
+                                    "assets/images/pesanansaya.png",
+                                    height: 128,
+                                  ),
+                                  SizedBox(height: 3),
+                                  Text(
+                                    "Pesananan Saya",
+                                    style: session.cardStyle,
+                                  )
+                                ],
+                              ),
+                            )),
                         GestureDetector(
                             onTap: () {
                               Fluttertoast.showToast(msg: "Laporan");

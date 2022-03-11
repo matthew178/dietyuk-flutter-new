@@ -407,6 +407,8 @@ class CheckoutState extends State<Checkout> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
+          foregroundColor: session.warna,
           title: Center(
             child: Column(
               children: [

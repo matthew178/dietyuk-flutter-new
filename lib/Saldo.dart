@@ -221,7 +221,7 @@ class SaldoState extends State<Saldo> {
                                     BorderRadius.all(Radius.circular(18))),
                             child: IconButton(
                               onPressed: () {
-                                Fluttertoast.showToast(msg: "SINI");
+                                Navigator.pushNamed(context, "/withdraw");
                               },
                               icon: Icon(
                                 Icons.attach_money,

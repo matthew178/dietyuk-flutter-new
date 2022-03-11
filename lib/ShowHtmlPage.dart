@@ -1,34 +1,57 @@
+import 'package:dietyukapp/HomepageMember.dart';
+import 'package:dietyukapp/Saldo.dart';
+import 'package:dietyukapp/Topup.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:url_launcher/url_launcher.dart';
-// import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'session.dart' as session;
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class ShowHtmlPage extends StatefulWidget {
+  final String jumlahtopup;
   @override
-  _TopUp2State createState() => _TopUp2State(url);
+  _TopUp2State createState() => _TopUp2State(this.url, this.jumlahtopup);
 
   final String url;
 
-  ShowHtmlPage({Key key, @required this.url}) : super(key: key);
+  ShowHtmlPage({Key key, @required this.url, @required this.jumlahtopup})
+      : super(key: key);
 }
 
 class _TopUp2State extends State<ShowHtmlPage> {
-  String url;
+  String url, jumtopup;
   Completer<WebViewController> _controller = Completer<WebViewController>();
   final Set<String> _favorites = Set<String>();
 
-  _TopUp2State(this.url) {}
+  _TopUp2State(this.url, this.jumtopup) {}
+
+  void tambahsaldo() async {
+    print(jumtopup + " ini topup");
+    Map paramData = {'saldo': jumtopup, 'user': session.userlogin};
+    var parameter = json.encode(paramData);
+    http
+        .post(Uri.parse(session.ipnumber + "/tambahsaldo"),
+            headers: {"Content-Type": "application/json"}, body: parameter)
+        .then((res) {
+      print(res.body);
+    }).catchError((err) {
+      print(err);
+    });
+  }
 
   void backscreen() {
-    Navigator.pop(context);
+    tambahsaldo();
+    Navigator.push(this.context,
+        MaterialPageRoute(builder: (context) => HomePageMember()));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
-        title: new Text("Pembayaran Dengan Xendit"),
+        title: new Text("TopUp Saldo"),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.map),

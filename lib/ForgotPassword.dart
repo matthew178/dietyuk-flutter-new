@@ -234,6 +234,8 @@ class ForgotPasswordState extends State<ForgotPassword> {
                                               BorderRadius.circular(16)),
                                       child: Center(
                                         child: TextField(
+                                          obscureText: true,
+                                          autofocus: false,
                                           controller: pass,
                                           decoration: InputDecoration(
                                               border: InputBorder.none,
@@ -261,6 +263,8 @@ class ForgotPasswordState extends State<ForgotPassword> {
                                               BorderRadius.circular(16)),
                                       child: Center(
                                         child: TextField(
+                                          obscureText: true,
+                                          autofocus: false,
                                           controller: konfir,
                                           decoration: InputDecoration(
                                               border: InputBorder.none,

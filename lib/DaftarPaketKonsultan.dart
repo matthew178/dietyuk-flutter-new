@@ -20,6 +20,7 @@ class Daftarpaketkonsultan extends StatefulWidget {
 class DaftarpaketkonsultanState extends State<Daftarpaketkonsultan> {
   NumberFormat frmt = new NumberFormat(",000");
   List<ClassPaket> arrPaket = new List();
+  String search = "";
   @override
   void initState() {
     super.initState();
@@ -32,6 +33,73 @@ class DaftarpaketkonsultanState extends State<Daftarpaketkonsultan> {
     var parameter = json.encode(paramData);
     http
         .post(Uri.parse(session.ipnumber + "/getpaketkonsultan"),
+            headers: {"Content-Type": "application/json"}, body: parameter)
+        .then((res) {
+      var data = json.decode(res.body);
+      print(data);
+      data = data[0]['paket'];
+      for (int i = 0; i < data.length; i++) {
+        ClassPaket databaru = ClassPaket(
+            data[i]['id_paket'].toString(),
+            data[i]['estimasiturun'].toString(),
+            data[i]['harga'].toString(),
+            data[i]['durasi'].toString(),
+            data[i]['status'].toString(),
+            data[i]['rating'].toString(),
+            data[i]['nama'].toString(),
+            data[i]['nama_paket'].toString(),
+            data[i]['deskripsi'].toString(),
+            data[i]['gambar'].toString());
+        arrPaket.add(databaru);
+      }
+      setState(() => this.arrPaket = arrPaket);
+      print(arrPaket.length);
+      return arrPaket;
+    }).catchError((err) {
+      print(err);
+    });
+  }
+
+  Future<List<ClassPaket>> onOffPaket(String id) async {
+    print(id + " ini id paket");
+    List<ClassPaket> arrPaket = new List();
+    Map paramData = {'paket': id, 'id': session.userlogin};
+    var parameter = json.encode(paramData);
+    http
+        .post(Uri.parse(session.ipnumber + "/onOffPaket"),
+            headers: {"Content-Type": "application/json"}, body: parameter)
+        .then((res) {
+      var data = json.decode(res.body);
+      print(data);
+      data = data[0]['paket'];
+      for (int i = 0; i < data.length; i++) {
+        ClassPaket databaru = ClassPaket(
+            data[i]['id_paket'].toString(),
+            data[i]['estimasiturun'].toString(),
+            data[i]['harga'].toString(),
+            data[i]['durasi'].toString(),
+            data[i]['status'].toString(),
+            data[i]['rating'].toString(),
+            data[i]['nama'].toString(),
+            data[i]['nama_paket'].toString(),
+            data[i]['deskripsi'].toString(),
+            data[i]['gambar'].toString());
+        arrPaket.add(databaru);
+      }
+      setState(() => this.arrPaket = arrPaket);
+      print(arrPaket.length);
+      return arrPaket;
+    }).catchError((err) {
+      print(err);
+    });
+  }
+
+  Future<List<ClassPaket>> searchPaket(String cari) async {
+    List<ClassPaket> arrPaket = new List();
+    Map paramData = {'cari': cari, 'konsultan': session.userlogin};
+    var parameter = json.encode(paramData);
+    http
+        .post(Uri.parse(session.ipnumber + "/searchPaketKonsultan"),
             headers: {"Content-Type": "application/json"}, body: parameter)
         .then((res) {
       var data = json.decode(res.body);
@@ -73,12 +141,12 @@ class DaftarpaketkonsultanState extends State<Daftarpaketkonsultan> {
               child: Padding(
                 padding: EdgeInsets.only(left: 25, right: 25, top: 50),
                 child: TextField(
-                  // onSubmitted: (String str) {
-                  //   setState(() {
-                  //     search = str;
-                  //   });
-                  //   searchProduk(search);
-                  // },
+                  onSubmitted: (String str) {
+                    setState(() {
+                      search = str;
+                    });
+                    searchPaket(search);
+                  },
                   decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -228,7 +296,7 @@ class DaftarpaketkonsultanState extends State<Daftarpaketkonsultan> {
                                                               : Fluttertoast
                                                                   .showToast(
                                                                       msg:
-                                                                          "ON");
+                                                                          "OFF");
                                                         },
                                                         color: Colors
                                                             .lightBlueAccent,
@@ -259,7 +327,7 @@ class DaftarpaketkonsultanState extends State<Daftarpaketkonsultan> {
                                                               Fluttertoast
                                                                   .showToast(
                                                                       msg:
-                                                                          "OFF");
+                                                                          "ON");
                                                             },
                                                             color: Colors
                                                                 .lightBlueAccent,

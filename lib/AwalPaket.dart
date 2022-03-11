@@ -12,19 +12,22 @@ import 'dart:math';
 class AwalPaket extends StatefulWidget {
   final String id;
   final String paket;
+  final String status;
 
-  AwalPaket({Key key, @required this.id, @required this.paket})
+  AwalPaket(
+      {Key key, @required this.id, @required this.paket, @required this.status})
       : super(key: key);
 
   @override
-  AwalPaketState createState() => AwalPaketState(this.id, this.paket);
+  AwalPaketState createState() =>
+      AwalPaketState(this.id, this.paket, this.status);
 }
 
 class AwalPaketState extends State<AwalPaket> {
   String week = "1";
   ClassPaket paketsekarang = new ClassPaket("id", "estimasi", "0", "durasi",
       "status", "", "konsultan", "namapaket1", "deskripsi", "default.jpg");
-  String id, paket;
+  String id, paket, status;
   // List<DetailBeli> detail = new List();
   // List<DetailBeli> tempDetail = new List();
   // List<ClassPerkembangan> arrLaporan = new List();
@@ -35,7 +38,7 @@ class AwalPaketState extends State<AwalPaket> {
   int tmp = 1;
   String foto = "assets/images/awalpage.png";
 
-  AwalPaketState(this.id, this.paket);
+  AwalPaketState(this.id, this.paket, this.status);
 
   @override
   void initState() {
@@ -52,7 +55,6 @@ class AwalPaketState extends State<AwalPaket> {
     var _random = Random();
     var hasil = _random.nextInt(listImagesnotFound.length);
     foto = listImagesnotFound[hasil];
-    print("random = " + hasil.toString());
   }
 
   Future<List<ClassAwalPaket>> getDetail() async {
@@ -70,11 +72,9 @@ class AwalPaketState extends State<AwalPaket> {
       var data = returndata[0]['detail'];
       for (int i = 0; i < data.length; i++) {
         week = ((int.parse(data[i]['hari'].toString()) - 1) ~/ 7).toInt() + 1;
-        print("hari : " + data[i]['hari'].toString());
         databaru = ClassAwalPaket("0", data[i]['hari'].toString(),
             data[i]['tanggal'].toString(), week.toString(), "hari");
         arrAwal.add(databaru);
-        print(databaru.hari + " HARI");
       }
       data = returndata[0]['laporan'];
       for (int i = 0; i < data.length; i++) {
@@ -90,7 +90,6 @@ class AwalPaketState extends State<AwalPaket> {
         databaru.setketerangan(data[i]['status'].toString());
         databaru.setidbeli(data[i]['idbeli'].toString());
         arrAwal.add(databaru);
-        print(databaru.hari + " HARI LAPORAN");
       }
       arrAwal.sort((a, b) => int.parse(a.hari).compareTo(int.parse(b.hari)));
 
@@ -108,7 +107,6 @@ class AwalPaketState extends State<AwalPaket> {
     for (int i = 0; i < arrAwal.length; i++) {
       if (arrAwal[i].week == week.toString()) {
         tempDetail.add(arrAwal[i]);
-        print(arrAwal[i].hari + " INI HARI");
       }
     }
     setState(() => this.arrTemp = tempDetail);
@@ -172,7 +170,6 @@ class AwalPaketState extends State<AwalPaket> {
           .post(Uri.parse(session.ipnumber + "/tambahPerkembangan"),
               headers: {"Content-Type": "application/json"}, body: parameter)
           .then((res) {
-        print(res.body);
         getDetail();
       }).catchError((err) {
         print(err);
@@ -233,13 +230,7 @@ class AwalPaketState extends State<AwalPaket> {
                             if (timbang.text != "") {
                               tambahPerkembangan(idsaatini, timbang.text,
                                   statussaatini, idbel, hrike);
-                              print("idsaatini : " +
-                                  idsaatini +
-                                  " berat : " +
-                                  timbang.text +
-                                  " keterangan " +
-                                  statussaatini);
-                              // berat.text = "";
+
                               Fluttertoast.showToast(
                                   msg: "Berhasil tambah perkembangan");
                               Navigator.of(context, rootNavigator: true)
@@ -373,14 +364,23 @@ class AwalPaketState extends State<AwalPaket> {
                       return GestureDetector(
                           onTap: () {
                             arrTemp[index].tipe == "hari"
-                                ? Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => JadwalHarian(
-                                            week: week,
-                                            idbeli: id,
-                                            hari: arrTemp[index].hari,
-                                            tipe: 1)))
+                                ? this.status == "1"
+                                    ? Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => JadwalHarian(
+                                                week: week,
+                                                idbeli: id,
+                                                hari: arrTemp[index].hari,
+                                                tipe: 1)))
+                                    : Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => JadwalHarian(
+                                                week: week,
+                                                idbeli: id,
+                                                hari: arrTemp[index].hari,
+                                                tipe: 2)))
                                 : cetakdialog(
                                     arrTemp[index].id,
                                     arrTemp[index].keterangan,

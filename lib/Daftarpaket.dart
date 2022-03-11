@@ -54,6 +54,42 @@ class DaftarpaketState extends State<Daftarpaket> {
     });
   }
 
+  Future<List<ClassPaket>> getFilterPaket() async {
+    List<ClassPaket> arrPaket = new List();
+    Map paramData = {"qry": session.qry};
+    var parameter = json.encode(paramData);
+    http
+        .post(Uri.parse(session.ipnumber + "/filterpaket"),
+            headers: {"Content-Type": "application/json"}, body: parameter)
+        .then((res) {
+      print("ini query : " + session.qry);
+      print("ini body : " + res.body);
+      var data = json.decode(res.body);
+      data = data[0]['paket'];
+      print(data);
+      for (int i = 0; i < data.length; i++) {
+        ClassPaket databaru = ClassPaket(
+            data[i]['id_paket'].toString(),
+            data[i]['estimasiturun'].toString(),
+            data[i]['harga'].toString(),
+            data[i]['durasi'].toString(),
+            data[i]['status'].toString(),
+            data[i]['rating'].toString(),
+            data[i]['nama'].toString(),
+            data[i]['nama_paket'].toString(),
+            data[i]['deskripsi'].toString(),
+            data[i]['background'].toString());
+        arrPaket.add(databaru);
+      }
+      setState(() => this.arrPaket = arrPaket);
+      setState(() => session.paketSemua = this.arrPaket);
+      print(arrPaket.length);
+      return arrPaket;
+    }).catchError((err) {
+      print(err);
+    });
+  }
+
   Future<List<ClassPaket>> searchPaket(String cari) async {
     List<ClassPaket> tempPaket = new List();
     Map paramData = {"cari": cari};
@@ -142,9 +178,11 @@ class DaftarpaketState extends State<Daftarpaket> {
                           child: IconButton(
                               onPressed: () {
                                 Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => FilterPaket()));
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                FilterPaket()))
+                                    .then((value) => getFilterPaket());
                               },
                               icon: Icon(Icons.filter_alt))),
                       SizedBox(width: 5)

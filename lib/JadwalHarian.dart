@@ -95,7 +95,6 @@ class JadwalHarianState extends State<JadwalHarian> {
         tempData.add(databaru);
       }
       setState(() => this.jadwal = tempData);
-      print("pagi : " + pagi.length.toString());
       return tempData;
     }).catchError((err) {
       print(err);
@@ -429,10 +428,6 @@ class JadwalHarianState extends State<JadwalHarian> {
                                                         msg:
                                                             "Program belum dimulai");
                                                   } else {
-                                                    print("hariini : " +
-                                                        tglnow.toString() +
-                                                        " tglmalam : " +
-                                                        malam[index].tanggal);
                                                     if (malam[index].status ==
                                                         "1") {
                                                       setState(() =>

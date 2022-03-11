@@ -28,7 +28,7 @@ class LoginState extends State<Login> {
   TextEditingController myUsername = new TextEditingController();
   TextEditingController myPassword = new TextEditingController();
   SharedPreferences preference;
-  String user = "0", role = "", berat = "0";
+  String user = "0", role = "", berat = "0", status = "0";
 
   takeFirebase() async {
     await Firebase.initializeApp();
@@ -67,6 +67,7 @@ class LoginState extends State<Login> {
     user = preference.getString("user") ?? "0";
     role = preference.getString("role") ?? "";
     berat = preference.getString("berat") ?? "0";
+    status = preference.getString("status") ?? "Tidak Aktif";
     session.userlogin = int.parse(user);
     session.role = role;
     session.berat = int.parse(berat);
@@ -160,9 +161,11 @@ class LoginState extends State<Login> {
           var data = json.decode(res.body);
           session.userlogin = data[0]['id'];
           session.role = data[0]['role'];
+          session.status = data[0]['status'];
           preference.setString("user", data[0]['id'].toString());
           preference.setString("role", data[0]['role']);
           preference.setString("berat", data[0]['berat']);
+          preference.setString("status", data[0]['status']);
 
           if (data[0]['status'] == "Aktif") {
             // kalau berhasil login maka updateTokenFirebase ke mysql
@@ -186,7 +189,13 @@ class LoginState extends State<Login> {
             } else if (data[0]['role'] == "konsultan") {
               Navigator.pushNamed(this.context, "/konsultan");
             }
-          } else if (data[0]['status'] == "Tidak Aktif") {
+          } else if (data[0]['status'] == "Tidak Aktif" &&
+              data[0]['role'] == "konsultan") {
+            // Fluttertoast.showToast(
+            //     msg: "Akun anda di blok. Silahkan hubungi admin");
+            Navigator.pushNamed(this.context, "/konsultan");
+          } else if (data[0]['status'] == "Tidak Aktif" &&
+              data[0]['role'] == "member") {
             Fluttertoast.showToast(
                 msg: "Akun anda di blok. Silahkan hubungi admin");
           } else {

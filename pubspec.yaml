@@ -126,6 +126,20 @@ flutter:
     - assets/images/tiki.png
     - assets/images/paket.jpg
     - assets/images/produk.png
+    - assets/images/kalkulator.png
+    - assets/images/weight.png
+    - assets/images/activity.png
+    - assets/images/female.png
+    - assets/images/male.png
+    - assets/images/gender.png
+    - assets/images/age.png
+    - assets/images/height.png
+    - assets/images/lazy.png
+    - assets/images/lari.png
+    - assets/images/santai.png
+    - assets/images/pesanansaya.png
+
+
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

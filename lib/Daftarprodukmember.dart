@@ -1,4 +1,6 @@
-import 'ProdukDetail.dart';
+import 'package:flutter/cupertino.dart';
+
+import 'produkdetail.dart';
 import 'package:badges/badges.dart';
 import 'session.dart' as session;
 import 'package:flutter/material.dart';
@@ -23,6 +25,8 @@ class DaftarprodukmemberState extends State<Daftarprodukmember> {
   String kategori;
   String search = "";
   int jumlah = 0;
+  TextEditingController hargaawal = new TextEditingController();
+  TextEditingController hargaakhir = new TextEditingController();
 
   DaftarprodukmemberState(this.kategori);
 
@@ -83,6 +87,50 @@ class DaftarprodukmemberState extends State<Daftarprodukmember> {
         .then((res) {
       print(res.body);
       var data = json.decode(res.body);
+      data = data[0]['produk'];
+      for (int i = 0; i < data.length; i++) {
+        ClassProduk databaru = ClassProduk(
+            data[i]['kodeproduk'].toString(),
+            data[i]['nama'].toString(),
+            data[i]['namaproduk'].toString(),
+            data[i]['kodekategori'].toString(),
+            data[i]['kemasan'].toString(),
+            data[i]['harga'].toString(),
+            data[i]['foto'].toString(),
+            data[i]['deskripsi'].toString(),
+            data[i]['status'].toString(),
+            data[i]['varian'].toString(),
+            data[i]['fotokonsultan'].toString(),
+            data[i]['konsultan'].toString(),
+            data[i]['berat'].toString());
+        tempProduk.add(databaru);
+      }
+      setState(() => this.arrProduk = tempProduk);
+      print("sinisitu");
+      return tempProduk;
+    }).catchError((err) {
+      print(err);
+    });
+  }
+
+  Future<List<ClassProduk>> searchfilterProduk(String cari) async {
+    print(hargaawal.text + "---- " + hargaakhir.text);
+    List<ClassProduk> tempProduk = new List();
+    Map paramData = {
+      'cari': cari,
+      'id': kategori,
+      'hargaawal': hargaawal.text,
+      'hargaakhir': hargaakhir.text
+    };
+    var parameter = json.encode(paramData);
+    http
+        .post(Uri.parse(session.ipnumber + "/searchfilterProduk"),
+            headers: {"Content-Type": "application/json"}, body: parameter)
+        .then((res) {
+      print(res.body);
+      var data = json.decode(res.body);
+      var data1 = data[0]['status'];
+      print("status : " + data1);
       data = data[0]['produk'];
       for (int i = 0; i < data.length; i++) {
         ClassProduk databaru = ClassProduk(
@@ -184,6 +232,88 @@ class DaftarprodukmemberState extends State<Daftarprodukmember> {
               ],
             ),
             SizedBox(height: 25),
+            SizedBox(
+              height: size.height * 0.13,
+              child: Container(
+                padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                margin: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                // decoration: BoxDecoration(color: Colors.white),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 30,
+                      child: Text(
+                        "Filter Harga :",
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    SizedBox(
+                        height: 30,
+                        child: Row(
+                          children: [
+                            Expanded(
+                                flex: 1,
+                                child: TextField(
+                                    controller: hargaawal,
+                                    keyboardType: TextInputType.text,
+                                    decoration: InputDecoration(
+                                        hintText: "Minimum",
+                                        prefixIcon: Text("Rp "),
+                                        prefixIconConstraints: BoxConstraints(
+                                            minWidth: 0, minHeight: 0)),
+                                    textInputAction: TextInputAction.done)),
+                            // Expanded(flex: 1, child: SizedBox()),
+                            SizedBox(width: 50),
+                            Expanded(
+                                flex: 1,
+                                child: TextField(
+                                  controller: hargaakhir,
+                                  keyboardType: TextInputType.text,
+                                  decoration: InputDecoration(
+                                      hintText: "Maksimum",
+                                      prefixIcon: Text("Rp "),
+                                      prefixIconConstraints: BoxConstraints(
+                                          minWidth: 0, minHeight: 0)),
+                                  textInputAction: TextInputAction.done,
+                                )),
+                            Expanded(
+                              child: Center(
+                                  child: SizedBox(
+                                child: Container(
+                                    padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                    height: size.height * 0.08,
+                                    width: size.width * 0.8,
+                                    child: Center(
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(16),
+                                            color: session.kBlue),
+                                        child: FlatButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              searchfilterProduk(search);
+                                            });
+                                          },
+                                          child: Text(
+                                            'Filter',
+                                            style: session.kBodyText.copyWith(
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                      ),
+                                    )),
+                              )),
+                            )
+                          ],
+                        )),
+                  ],
+                ),
+              ),
+            ),
             Container(
                 child: Wrap(
                     children: List.generate(arrProduk.length, (index) {

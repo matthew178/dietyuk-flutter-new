@@ -190,42 +190,44 @@ class PilihOrderState extends State<PilihOrder> {
                             ),
                           ),
                         )),
-                    Badge(
-                        position: BadgePosition.topEnd(top: 0, end: 30),
-                        animationDuration: Duration(milliseconds: 300),
-                        animationType: BadgeAnimationType.slide,
-                        badgeContent: Text(
-                          arrTransProduk.length.toString(),
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              PesananProdukKonsultan()))
-                                  .then((value) => getTransProduk());
-                            },
-                            child: Card(
-                              elevation: 4,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8)),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Image.asset(
-                                    "assets/images/produk.png",
-                                    height: 128,
+                    session.status == "Aktif"
+                        ? Badge(
+                            position: BadgePosition.topEnd(top: 0, end: 30),
+                            animationDuration: Duration(milliseconds: 300),
+                            animationType: BadgeAnimationType.slide,
+                            badgeContent: Text(
+                              arrTransProduk.length.toString(),
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  PesananProdukKonsultan()))
+                                      .then((value) => getTransProduk());
+                                },
+                                child: Card(
+                                  elevation: 4,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8)),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Image.asset(
+                                        "assets/images/produk.png",
+                                        height: 128,
+                                      ),
+                                      SizedBox(height: 10),
+                                      Text(
+                                        "Produk",
+                                        style: session.cardStyle,
+                                      )
+                                    ],
                                   ),
-                                  SizedBox(height: 10),
-                                  Text(
-                                    "Produk",
-                                    style: session.cardStyle,
-                                  )
-                                ],
-                              ),
-                            )))
+                                )))
+                        : SizedBox()
                   ],
                 ),
               )

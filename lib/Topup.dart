@@ -129,11 +129,11 @@ class TopupState extends State<Topup> {
     //launchWebViewExample(resData["invoice_url"].toString());
     //updatesaldo();
     String url = resData["invoice_url"].toString();
-
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ShowHtmlPage(url: url),
+        builder: (context) =>
+            ShowHtmlPage(url: url, jumlahtopup: nominaltopup.text),
       ),
     );
   }
