@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
       //     visualDensity: VisualDensity.adaptivePlatformDensity),
       initialRoute: '/',
       routes: {
-        '/': (context) => Login(),
+        '/': (context) => LaporanPaket(),
         '/register': (context) => Register(),
         '/konsultan': (context) => Dashkonsultan(),
         '/member': (context) => Dashmember(),
