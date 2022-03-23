@@ -319,6 +319,7 @@ class daftarpesananmemberState extends State<daftarpesananmember> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: session.warna,
@@ -382,11 +383,7 @@ class daftarpesananmemberState extends State<daftarpesananmember> {
                                                 children: [
                                                   Container(
                                                       width:
-                                                          MediaQuery.of(context)
-                                                                      .size
-                                                                      .width /
-                                                                  2 +
-                                                              90,
+                                                          size.width / 2 + 90,
                                                       padding:
                                                           EdgeInsets.fromLTRB(
                                                               15, 10, 0, 0),
@@ -402,10 +399,7 @@ class daftarpesananmemberState extends State<daftarpesananmember> {
                                                 ],
                                               ),
                                               Container(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      4,
+                                                  width: size.width / 4,
                                                   padding: EdgeInsets.fromLTRB(
                                                       0, 10, 0, 0),
                                                   child: Column(
@@ -491,20 +485,14 @@ class daftarpesananmemberState extends State<daftarpesananmember> {
                                           ),
                                           Divider(color: Colors.black),
                                           Container(
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
+                                              width: size.width,
                                               child: Row(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     SizedBox(width: 10),
                                                     Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            5,
+                                                        width: size.width / 5,
                                                         child: Text(
                                                           packing[index]
                                                                   .jumlahproduk +
@@ -516,11 +504,7 @@ class daftarpesananmemberState extends State<daftarpesananmember> {
                                                               fontSize: 15),
                                                         )),
                                                     Container(
-                                                        width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width /
-                                                                2 +
+                                                        width: size.width / 2 +
                                                             100,
                                                         child: Column(
                                                           crossAxisAlignment:
@@ -580,11 +564,7 @@ class daftarpesananmemberState extends State<daftarpesananmember> {
                                                 children: [
                                                   Container(
                                                       width:
-                                                          MediaQuery.of(context)
-                                                                      .size
-                                                                      .width /
-                                                                  2 -
-                                                              10,
+                                                          size.width / 2 - 10,
                                                       padding:
                                                           EdgeInsets.fromLTRB(
                                                               15, 10, 0, 0),
@@ -600,10 +580,7 @@ class daftarpesananmemberState extends State<daftarpesananmember> {
                                                 ],
                                               ),
                                               Container(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      2,
+                                                  width: size.width / 2,
                                                   padding: EdgeInsets.fromLTRB(
                                                       0, 10, 0, 0),
                                                   child: Column(
@@ -693,9 +670,7 @@ class daftarpesananmemberState extends State<daftarpesananmember> {
                                           ),
                                           Divider(color: Colors.black),
                                           Container(
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
+                                              width: size.width,
                                               child: Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.end,
@@ -749,11 +724,7 @@ class daftarpesananmemberState extends State<daftarpesananmember> {
                                                 children: [
                                                   Container(
                                                       width:
-                                                          MediaQuery.of(context)
-                                                                      .size
-                                                                      .width /
-                                                                  2 -
-                                                              10,
+                                                          size.width / 2 - 10,
                                                       padding:
                                                           EdgeInsets.fromLTRB(
                                                               15, 10, 0, 0),
@@ -769,10 +740,7 @@ class daftarpesananmemberState extends State<daftarpesananmember> {
                                                 ],
                                               ),
                                               Container(
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width /
-                                                      2,
+                                                  width: size.width / 2,
                                                   padding: EdgeInsets.fromLTRB(
                                                       0, 10, 0, 0),
                                                   child: Column(
@@ -863,9 +831,7 @@ class daftarpesananmemberState extends State<daftarpesananmember> {
                                           ),
                                           Divider(color: Colors.black),
                                           Container(
-                                              width: MediaQuery.of(context)
-                                                  .size
-                                                  .width,
+                                              width: size.width,
                                               child: Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.end,

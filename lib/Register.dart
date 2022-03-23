@@ -294,7 +294,7 @@ class RegisterState extends State<Register> {
                                   borderRadius: BorderRadius.circular(16)),
                               child: Center(
                                 child: Container(
-                                  padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
+                                  padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
                                   child: Center(
                                     child: Row(
                                       mainAxisAlignment:

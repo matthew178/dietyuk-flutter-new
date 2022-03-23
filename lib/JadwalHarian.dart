@@ -103,6 +103,7 @@ class JadwalHarianState extends State<JadwalHarian> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text("Minggu " + week + " - Hari " + hari),

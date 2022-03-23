@@ -1,6 +1,7 @@
 import 'package:dietyukapp/DaftarPaketKonsultan.dart';
 import 'package:dietyukapp/DaftarProduk.dart';
 import 'package:dietyukapp/PilihOrder.dart';
+import 'package:dietyukapp/Pilih_Laporan_Konsultan.dart';
 import 'package:dietyukapp/tdeecalculator.dart';
 
 import 'DaftarPaket.dart';
@@ -312,7 +313,12 @@ class HomekonsultanState extends State<Homekonsultan> {
                               ),
                               GestureDetector(
                                   onTap: () {
-                                    Fluttertoast.showToast(msg: "Laporan");
+                                    Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    PilihLaporanKonsultan()))
+                                        .then((value) => getProfile());
                                   },
                                   child: Card(
                                     elevation: 4,

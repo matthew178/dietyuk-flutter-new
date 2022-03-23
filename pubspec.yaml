@@ -138,6 +138,8 @@ flutter:
     - assets/images/lari.png
     - assets/images/santai.png
     - assets/images/pesanansaya.png
+    - assets/images/Laporan_Paket.png
+    - assets/images/Laporan_Produk.png
 
 
   # The following line ensures that the Material Icons font is

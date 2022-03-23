@@ -132,6 +132,7 @@ class TambahProdukState extends State<TambahProduk> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text("Tambah Produk Page"),

@@ -435,7 +435,7 @@ class CheckoutState extends State<Checkout> {
               ),
             ),
             SizedBox(
-              height: 100,
+              height: size.height / (size.height / 100),
               child: Container(
                 padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                 margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -484,7 +484,7 @@ class CheckoutState extends State<Checkout> {
                   style: TextStyle(fontSize: 20),
                 )),
             SizedBox(
-              height: 325,
+              height: size.height / (size.height / 350),
               child: new ListView.builder(
                   itemCount: cartshop.length == 0 ? 1 : cartshop.length,
                   itemBuilder: (context, index) {
@@ -689,8 +689,8 @@ class CheckoutState extends State<Checkout> {
                 Expanded(
                   flex: 3,
                   child: SizedBox(
-                    height: 50,
-                    width: 200,
+                    height: size.height / 13.5,
+                    width: size.width / 2,
                     child: DropdownButton<ClassKurir>(
                       // style: Theme.of(context).textTheme.title,
                       hint: Text("Pilih Kurir"),

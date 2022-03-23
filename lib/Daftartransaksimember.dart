@@ -478,24 +478,24 @@ class DaftartransaksimemberState extends State<Daftartransaksimember> {
                         ),
                       ),
                       SizedBox(height: 5),
-                      // Container(
-                      //   child: new RaisedButton(
-                      //     onPressed: () {
-                      //       laporKonsultan();
-                      //     },
-                      //     padding: new EdgeInsets.all(16.0),
-                      //     color: Colors.red,
-                      //     child: new Text(
-                      //       'Lapor Konsultan',
-                      //       style: TextStyle(
-                      //         color: Colors.white,
-                      //         fontSize: 18.0,
-                      //         fontFamily: 'helvetica_neue_light',
-                      //       ),
-                      //       textAlign: TextAlign.center,
-                      //     ),
-                      //   ),
-                      // ),
+                      Container(
+                        child: new RaisedButton(
+                          onPressed: () {
+                            laporKonsultan();
+                          },
+                          padding: new EdgeInsets.all(16.0),
+                          color: Colors.red,
+                          child: new Text(
+                            'Lapor Konsultan',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18.0,
+                              fontFamily: 'helvetica_neue_light',
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -817,6 +817,7 @@ class DaftartransaksimemberState extends State<Daftartransaksimember> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text("Daftar Transaksi Page"),

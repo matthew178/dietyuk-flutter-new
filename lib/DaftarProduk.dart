@@ -149,6 +149,7 @@ class DaftarProdukState extends State<DaftarProduk> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       // backgroundColor: session.warna,
       // appBar: AppBar(
@@ -158,7 +159,7 @@ class DaftarProdukState extends State<DaftarProduk> {
       body: Column(
         children: [
           SizedBox(
-              height: 100,
+              height: size.height / 6.84,
               child: Padding(
                 padding: EdgeInsets.only(left: 25, right: 25, top: 50),
                 child: TextField(

@@ -129,6 +129,7 @@ class Topup2State extends State<Topup2> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text("TOP UP SALDO"),

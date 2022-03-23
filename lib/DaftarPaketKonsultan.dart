@@ -69,6 +69,7 @@ class DaftarpaketkonsultanState extends State<Daftarpaketkonsultan> {
         .post(Uri.parse(session.ipnumber + "/onOffPaket"),
             headers: {"Content-Type": "application/json"}, body: parameter)
         .then((res) {
+      print("sampe sini aja ya");
       var data = json.decode(res.body);
       print(data);
       data = data[0]['paket'];
@@ -129,6 +130,7 @@ class DaftarpaketkonsultanState extends State<Daftarpaketkonsultan> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: session.warna,
       // appBar: AppBar(
@@ -195,8 +197,8 @@ class DaftarpaketkonsultanState extends State<Daftarpaketkonsultan> {
                                     Row(children: [
                                       Image.asset(
                                         "assets/images/logo.png",
-                                        width: 100,
-                                        height: 100,
+                                        height: size.height / 6.84,
+                                        width: size.width / 4.12,
                                       ),
                                       SizedBox(width: 20.0),
                                       Column(
@@ -293,10 +295,10 @@ class DaftarpaketkonsultanState extends State<Daftarpaketkonsultan> {
                                                                   .showToast(
                                                                       msg:
                                                                           "Paket Diet Di Blokir Admin")
-                                                              : Fluttertoast
-                                                                  .showToast(
-                                                                      msg:
-                                                                          "OFF");
+                                                              : onOffPaket(
+                                                                  arrPaket[
+                                                                          index]
+                                                                      .id);
                                                         },
                                                         color: Colors
                                                             .lightBlueAccent,
@@ -324,10 +326,10 @@ class DaftarpaketkonsultanState extends State<Daftarpaketkonsultan> {
                                                                           2),
                                                             ),
                                                             onPressed: () {
-                                                              Fluttertoast
-                                                                  .showToast(
-                                                                      msg:
-                                                                          "ON");
+                                                              onOffPaket(
+                                                                  arrPaket[
+                                                                          index]
+                                                                      .id);
                                                             },
                                                             color: Colors
                                                                 .lightBlueAccent,
@@ -398,7 +400,8 @@ class DaftarpaketkonsultanState extends State<Daftarpaketkonsultan> {
                                                               EditJadwalPaket(
                                                                   id: arrPaket[
                                                                           index]
-                                                                      .id)));
+                                                                      .id))).then(
+                                                      (value) => getPaket());
                                                 },
                                                 color: Colors.lightBlueAccent,
                                                 child: Text(

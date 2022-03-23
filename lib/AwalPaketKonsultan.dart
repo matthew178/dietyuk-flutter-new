@@ -270,6 +270,7 @@ class AwalPaketKonsultanState extends State<AwalPaketKonsultan> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text("Program Diet"),
@@ -769,8 +770,13 @@ class AwalPaketKonsultanState extends State<AwalPaketKonsultan> {
                                                               child:
                                                                   Image.asset(
                                                             'assets/images/equals.png',
-                                                            height: 50,
-                                                            width: 50,
+                                                            height: size
+                                                                    .height /
+                                                                (size.height /
+                                                                    50),
+                                                            width: size.width /
+                                                                (size.width /
+                                                                    50),
                                                           ))
                                                         ],
                                                       ),

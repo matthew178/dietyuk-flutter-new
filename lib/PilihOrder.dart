@@ -126,6 +126,7 @@ class PilihOrderState extends State<PilihOrder> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: session.warna,
         // drawer: Drawer(),

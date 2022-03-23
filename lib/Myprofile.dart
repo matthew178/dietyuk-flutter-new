@@ -545,7 +545,7 @@ class MyprofileState extends State<Myprofile> {
                                       color: Colors.white),
                                   child: Column(
                                     children: [
-                                      SizedBox(height: 80),
+                                      SizedBox(height: size.height / 9),
                                       Container(
                                         child: Row(
                                           mainAxisAlignment:
@@ -631,7 +631,7 @@ class MyprofileState extends State<Myprofile> {
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 20, vertical: 8),
                                             child: Container(
-                                              height: 50,
+                                              height: size.height / 13.68,
                                               width: 5,
                                               decoration: BoxDecoration(
                                                   borderRadius:
@@ -669,8 +669,8 @@ class MyprofileState extends State<Myprofile> {
                                   right: 0,
                                   child: Center(
                                     child: SizedBox(
-                                      height: 115,
-                                      width: 115,
+                                      height: size.height / 6,
+                                      width: size.width / 3.5,
                                       child: Stack(
                                         fit: StackFit.expand,
                                         overflow: Overflow.visible,

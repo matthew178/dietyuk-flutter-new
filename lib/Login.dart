@@ -316,7 +316,7 @@ class LoginState extends State<Login> {
                           Border(bottom: BorderSide(width: 1, color: kWhite))),
                 ),
               ),
-              SizedBox(height: 25),
+              SizedBox(height: size.height / 28),
               Container(
                 height: size.height * 0.08,
                 width: size.width * 0.8,
@@ -332,7 +332,7 @@ class LoginState extends State<Login> {
                   ),
                 ),
               ),
-              SizedBox(height: 25),
+              SizedBox(height: size.height / 28),
               GestureDetector(
                 onTap: () => Navigator.pushNamed(context, '/register'),
                 child: Container(
@@ -345,7 +345,7 @@ class LoginState extends State<Login> {
                           Border(bottom: BorderSide(width: 1, color: kWhite))),
                 ),
               ),
-              SizedBox(height: 25)
+              SizedBox(height: size.height / 28)
             ],
           ),
         )

@@ -120,6 +120,7 @@ class SaldoState extends State<Saldo> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Color.fromRGBO(38, 81, 158, 1),
       body: Container(

@@ -41,6 +41,7 @@ class EditJadwalPaketState extends State<EditJadwalPaket> {
 
   EditJadwalPaketState(this.id);
 
+  @override
   void initState() {
     super.initState();
     getPaket();
@@ -201,6 +202,7 @@ class EditJadwalPaketState extends State<EditJadwalPaket> {
             data[i]['gambar'].toString());
       }
       setState(() => this.paketsaatini = paket);
+      print(paketsaatini.durasi.toString() + " durasi");
       getJadwal();
       return paket;
     }).catchError((err) {
@@ -291,6 +293,7 @@ class EditJadwalPaketState extends State<EditJadwalPaket> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text("Jadwal Paket  " + id),

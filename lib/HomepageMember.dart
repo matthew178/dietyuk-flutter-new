@@ -43,6 +43,7 @@ class HomePageMemberState extends State<HomePageMember> {
       "",
       "");
 
+  @override
   void initState() {
     super.initState();
     getProfile();
@@ -101,7 +102,6 @@ class HomePageMemberState extends State<HomePageMember> {
         body: Stack(
       children: <Widget>[
         Container(
-          // height: size.height * .3,
           decoration: BoxDecoration(
               image: DecorationImage(
                   alignment: Alignment.topCenter,
@@ -113,7 +113,7 @@ class HomePageMemberState extends State<HomePageMember> {
               child: Column(
                 children: <Widget>[
                   Container(
-                    height: 64,
+                    height: size.height / 10,
                     margin: EdgeInsets.only(bottom: 30),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -122,7 +122,7 @@ class HomePageMemberState extends State<HomePageMember> {
                           radius: 32,
                           backgroundImage: NetworkImage(this.foto),
                         ),
-                        SizedBox(width: 16),
+                        SizedBox(width: size.width / 26),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -180,7 +180,7 @@ class HomePageMemberState extends State<HomePageMember> {
                                                     color: Colors.white),
                                               ),
                                             )),
-                                  SizedBox(width: 100),
+                                  SizedBox(width: size.width / 4.15),
                                   Expanded(
                                     child: Container(
                                       decoration: BoxDecoration(
@@ -189,6 +189,10 @@ class HomePageMemberState extends State<HomePageMember> {
                                           color: HexColor("#1e96fc")),
                                       child: FlatButton(
                                         onPressed: () {
+                                          print("Height : " +
+                                              size.height.toString());
+                                          print("Width : " +
+                                              size.width.toString());
                                           Navigator.pushNamed(context, "/saldo")
                                               .then((value) => getProfile());
                                         },
@@ -207,7 +211,7 @@ class HomePageMemberState extends State<HomePageMember> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 50),
+                  SizedBox(height: size.height / (size.height / 50)),
                   Expanded(
                     child: GridView.count(
                       crossAxisCount: 2,
@@ -232,7 +236,7 @@ class HomePageMemberState extends State<HomePageMember> {
                                 children: <Widget>[
                                   Image.asset(
                                     "assets/images/listpaket.png",
-                                    height: 128,
+                                    height: size.height / 5.5,
                                   ),
                                   SizedBox(height: 3),
                                   Text(
@@ -259,7 +263,7 @@ class HomePageMemberState extends State<HomePageMember> {
                               children: <Widget>[
                                 Image.asset(
                                   "assets/images/listproduk.png",
-                                  height: 128,
+                                  height: size.height / 5.5,
                                 ),
                                 SizedBox(height: 3),
                                 Text(
@@ -288,7 +292,7 @@ class HomePageMemberState extends State<HomePageMember> {
                               children: <Widget>[
                                 Image.asset(
                                   "assets/images/mypaket.png",
-                                  height: 128,
+                                  height: size.height / 5.5,
                                 ),
                                 SizedBox(height: 3),
                                 Text(
@@ -317,7 +321,7 @@ class HomePageMemberState extends State<HomePageMember> {
                                 children: <Widget>[
                                   Image.asset(
                                     "assets/images/pesanansaya.png",
-                                    height: 128,
+                                    height: size.height / 5.5,
                                   ),
                                   SizedBox(height: 3),
                                   Text(
@@ -340,7 +344,7 @@ class HomePageMemberState extends State<HomePageMember> {
                                 children: <Widget>[
                                   Image.asset(
                                     "assets/images/report.png",
-                                    height: 128,
+                                    height: size.height / 5.5,
                                   ),
                                   SizedBox(height: 3),
                                   Text(

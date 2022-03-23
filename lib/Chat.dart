@@ -70,6 +70,7 @@ class _ChatState extends State<Chat> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(title: Text(this.namalawan)),
         body: Container(
@@ -156,6 +157,7 @@ class _ChatState extends State<Chat> {
   }
 
   Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
+    Size size = MediaQuery.of(context).size;
     final record = Record.fromSnapshot(data);
     print("cek = " + record.user1 + "-" + "Hansen");
     if (record.user1 == username1) {
@@ -191,8 +193,8 @@ class _ChatState extends State<Chat> {
                         borderRadius: BorderRadius.circular(10.0)),
                     child: Image.network(
                       session.ipnumber + "/gambar/produk/" + record.foto,
-                      height: 150,
-                      width: 150,
+                      height: size.height / (size.height / 150),
+                      width: size.width / (size.width / 150),
                     ),
                   ),
             Padding(padding: const EdgeInsets.only(top: 5.0)),
@@ -234,8 +236,8 @@ class _ChatState extends State<Chat> {
                         borderRadius: BorderRadius.circular(10.0)),
                     child: Image.network(
                       session.ipnumber + "/gambar/produk/" + record.foto,
-                      height: 150,
-                      width: 150,
+                      height: size.height / (size.height / 150),
+                      width: size.width / (size.width / 150),
                     ),
                   ),
             Padding(padding: const EdgeInsets.only(top: 5.0)),

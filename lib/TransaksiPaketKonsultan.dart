@@ -93,6 +93,7 @@ class TransaksiPaketKonsultanState extends State<TransaksiPaketKonsultan> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text("Daftar Transaksi Page"),
