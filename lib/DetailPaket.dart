@@ -1,4 +1,5 @@
 import 'package:dietyukapp/ClassReview.dart';
+import 'package:dietyukapp/ClassTestimoni.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -27,10 +28,11 @@ class DetailPaket extends StatefulWidget {
 class DetailPaketState extends State<DetailPaket> {
   String id, konsultan;
   ClassPaket paketsekarang = new ClassPaket("id", "estimasi", "0", "durasi",
-      "status", "", "konsultan", "namapaket1", "deskripsi", "default.jpg");
+      "status", "0.00", "konsultan", "namapaket1", "deskripsi", "default.jpg");
   List<ClassJadwal> arrJadwal = [];
   List<ClassReview> arrReview = [];
   List<ClassJadwal> allJadwal = [];
+  List<classTestimoni> arrTesti = [];
   NumberFormat frmt = new NumberFormat(',000');
   int hari = 1;
   int mode = 0;
@@ -47,7 +49,7 @@ class DetailPaketState extends State<DetailPaket> {
       "tinggi",
       "role",
       "0",
-      "0",
+      "0.00",
       "status",
       "foto",
       "",
@@ -64,33 +66,8 @@ class DetailPaketState extends State<DetailPaket> {
     getJadwal();
     getProfile();
     getReview();
+    getTesti();
   }
-
-  // Future<void> evtSebelum() async {
-  //   if (hari <= 1) {
-  //     setState(() {
-  //       hari = int.parse(paketsekarang.durasi);
-  //     });
-  //   } else {
-  //     setState(() {
-  //       hari = hari - 1;
-  //     });
-  //   }
-  //   sesuaikanJadwal(hari);
-  // }
-
-  // Future<void> evtSesudah() async {
-  //   if (hari >= int.parse(paketsekarang.durasi)) {
-  //     setState(() {
-  //       hari = 1;
-  //     });
-  //   } else {
-  //     setState(() {
-  //       hari = hari + 1;
-  //     });
-  //   }
-  //   sesuaikanJadwal(hari);
-  // }
 
   Widget cetakbintang(x, y) {
     if (x <= y) {
@@ -113,7 +90,6 @@ class DetailPaketState extends State<DetailPaket> {
         .post(Uri.parse(session.ipnumber + "/getreviewpaket"),
             headers: {"Content-Type": "application/json"}, body: parameter)
         .then((res) {
-      print(res.body);
       var data = json.decode(res.body);
       data = data[0]['review'];
 
@@ -133,7 +109,6 @@ class DetailPaketState extends State<DetailPaket> {
       setState(() {
         arrReview = arrTemp;
       });
-      print("panjang arr review : " + arrReview.length.toString());
     }).catchError((err) {
       print(err);
     });
@@ -150,7 +125,6 @@ class DetailPaketState extends State<DetailPaket> {
         .post(Uri.parse(session.ipnumber + "/getprofile"),
             headers: {"Content-Type": "application/json"}, body: parameter)
         .then((res) {
-      print(res.body);
       var data = json.decode(res.body);
       data = data[0]['profile'];
       userlog = ClassUser(
@@ -173,6 +147,37 @@ class DetailPaketState extends State<DetailPaket> {
           data[0]["kota"].toString());
       setState(() => this.userprofile = userlog);
       return userlog;
+    }).catchError((err) {
+      print(err);
+    });
+  }
+
+  Future<List<classTestimoni>> getTesti() async {
+    List<classTestimoni> tempTes = [];
+    Map paramData = {'paket': id};
+    var parameter = json.encode(paramData);
+    print("sini");
+    http
+        .post(Uri.parse(session.ipnumber + "/getTestiPaket"),
+            headers: {"Content-Type": "application/json"}, body: parameter)
+        .then((res) {
+      var data = json.decode(res.body);
+      data = data[0]['testi'];
+      for (int i = 0; i < data.length; i++) {
+        setState(() {
+          tempTes.add(new classTestimoni(
+              data[i]['id'].toString(),
+              data[i]['username'].toString(),
+              data[i]['review_paket'].toString(),
+              double.parse(data[i]['ratingpaket'].toString()),
+              data[i]['testimoni'].toString()));
+        });
+      }
+      setState(() {
+        this.arrTesti = tempTes;
+      });
+      print(arrTesti.length.toString() + " data");
+      return data;
     }).catchError((err) {
       print(err);
     });
@@ -476,27 +481,39 @@ class DetailPaketState extends State<DetailPaket> {
         backgroundColor: session.warna,
       ),
       body: DefaultTabController(
-        length: 3,
+        length: 4,
         child: Scaffold(
           body: Column(
             children: <Widget>[
               SizedBox(
                 child: Center(
                   child: Stack(children: <Widget>[
-                    new Image.network(
-                        session.ipnumber + "/" + paketsekarang.gambar),
+                    new Image.network(session.ipnumber +
+                        "/gambar/jenis_paket/" +
+                        paketsekarang.gambar),
                     Positioned.fill(
                         top: 35,
                         child: Align(
-                          alignment: Alignment.topRight,
-                          child: Text(
-                            paketsekarang.nama,
-                            style: TextStyle(
-                                fontSize: 25,
-                                fontWeight: FontWeight.w300,
-                                fontFamily: "PoiretOne"),
-                          ),
-                        )),
+                            alignment: Alignment.topRight,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  paketsekarang.nama + " ",
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.w300,
+                                      fontFamily: "PoiretOne"),
+                                ),
+                                Text(paketsekarang.rating.substring(0, 3)),
+                                SizedBox(width: 5),
+                                Container(
+                                  height: 20,
+                                  width: 20,
+                                  child: Image.asset("assets/images/bfull.png"),
+                                ),
+                              ],
+                            ))),
                     Positioned.fill(
                         top: 65,
                         child: Align(
@@ -529,6 +546,22 @@ class DetailPaketState extends State<DetailPaket> {
                                 fontFamily: 'Biryani'),
                           ),
                         )),
+                    // Positioned.fill(
+                    //   top: 155,
+                    //   child: Align(
+                    //       alignment: Alignment.topRight,
+                    //       child: Row(
+                    //         children: [
+                    //           Container(
+                    //             height: 20,
+                    //             width: 20,
+                    //             child: Image.asset("assets/images/bfull.png"),
+                    //           ),
+                    //           SizedBox(width: 5),
+                    //           Text(paketsekarang.rating.substring(0, 3))
+                    //         ],
+                    //       )),
+                    // )
                   ]),
                 ),
               ),
@@ -538,18 +571,10 @@ class DetailPaketState extends State<DetailPaket> {
                   backgroundColor: session.warna,
                   bottom: TabBar(
                     tabs: [
-                      Tab(
-                        // icon: Icon(Icons.info),
-                        text: "Deskripsi Paket",
-                      ),
-                      Tab(
-                        // icon: Icon(Icons.list_alt),
-                        text: "Jadwal",
-                      ),
-                      Tab(
-                        // icon: Icon(Icons.list_alt),
-                        text: "Review",
-                      ),
+                      Tab(text: "Deskripsi Paket"),
+                      Tab(text: "Jadwal"),
+                      Tab(text: "Review"),
+                      Tab(text: "Testimoni")
                     ],
                   ),
                 ),
@@ -769,20 +794,150 @@ class DetailPaketState extends State<DetailPaket> {
                                                         ),
                                                       ),
                                                       Container(
-                                                        padding:
-                                                            EdgeInsets.fromLTRB(
-                                                                20, 10, 10, 10),
-                                                        child: Text(
-                                                            '"' +
-                                                                arrReview[index]
-                                                                    .rvpaket +
-                                                                '"',
+                                                          width:
+                                                              size.width / 1.5,
+                                                          padding: EdgeInsets
+                                                              .fromLTRB(20, 10,
+                                                                  10, 10),
+                                                          child: Row(
+                                                            children: [
+                                                              Expanded(
+                                                                child: Text(
+                                                                    '"' +
+                                                                        arrReview[index]
+                                                                            .rvpaket +
+                                                                        '"',
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            15,
+                                                                        fontWeight:
+                                                                            FontWeight.bold)),
+                                                              )
+                                                            ],
+                                                          ))
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        }
+                                      }))),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      child: ListView(
+                        children: [
+                          Container(
+                              padding: EdgeInsets.fromLTRB(10, 15, 10, 10),
+                              child: SizedBox(
+                                  height: 200,
+                                  width: 150,
+                                  child: new ListView.builder(
+                                      itemCount: arrTesti.length == 0
+                                          ? 1
+                                          : arrTesti.length,
+                                      itemBuilder: (context, index) {
+                                        if (arrTesti.length == 0) {
+                                          return Container(
+                                              child: Text(
+                                                  "Belum Ada Data Testimoni",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold)));
+                                        } else {
+                                          return Card(
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            10, 10, 10, 10),
+                                                    child: Image.asset(
+                                                      "assets/images/avatar.png",
+                                                      height: 75,
+                                                      width: 75,
+                                                    )),
+                                                Container(
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Container(
+                                                          padding: EdgeInsets
+                                                              .fromLTRB(20, 10,
+                                                                  10, 0),
+                                                          child: Text(
+                                                            arrTesti[index]
+                                                                .username,
                                                             style: TextStyle(
-                                                                fontSize: 15,
+                                                                fontSize: 16,
                                                                 fontWeight:
                                                                     FontWeight
-                                                                        .bold)),
-                                                      )
+                                                                        .bold),
+                                                          )),
+                                                      Container(
+                                                        padding:
+                                                            EdgeInsets.fromLTRB(
+                                                                20, 10, 10, 0),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            cetakbintang(
+                                                                1,
+                                                                arrTesti[index]
+                                                                    .rating),
+                                                            cetakbintang(
+                                                                2,
+                                                                arrTesti[index]
+                                                                    .rating),
+                                                            cetakbintang(
+                                                                3,
+                                                                arrTesti[index]
+                                                                    .rating),
+                                                            cetakbintang(
+                                                                4,
+                                                                arrTesti[index]
+                                                                    .rating),
+                                                            cetakbintang(
+                                                                5,
+                                                                arrTesti[index]
+                                                                    .rating),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                          width:
+                                                              size.width / 1.5,
+                                                          padding: EdgeInsets
+                                                              .fromLTRB(20, 10,
+                                                                  10, 10),
+                                                          child: Row(
+                                                            children: [
+                                                              Expanded(
+                                                                child: Text(
+                                                                    '"' +
+                                                                        arrTesti[index]
+                                                                            .review +
+                                                                        '"',
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            15,
+                                                                        fontWeight:
+                                                                            FontWeight.bold)),
+                                                              )
+                                                            ],
+                                                          ))
                                                     ],
                                                   ),
                                                 ),

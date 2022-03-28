@@ -1,3 +1,5 @@
+import 'package:dietyukapp/LaporanPerkembangan.dart';
+
 import 'ClassProduk.dart';
 import 'session.dart';
 import 'shoppingcart.dart';
@@ -29,6 +31,7 @@ class LoginState extends State<Login> {
   TextEditingController myPassword = new TextEditingController();
   SharedPreferences preference;
   String user = "0", role = "", berat = "0", status = "0";
+  List<classLaporanPerkembangan> arrTempLap;
 
   takeFirebase() async {
     await Firebase.initializeApp();
@@ -68,9 +71,21 @@ class LoginState extends State<Login> {
     role = preference.getString("role") ?? "";
     berat = preference.getString("berat") ?? "0";
     status = preference.getString("status") ?? "Tidak Aktif";
+    var tmp = jsonDecode(preference.getString('perkembanganbb') ?? "[]");
+    for (var i = 0; i < tmp.length; i++) {
+      var tgl = tmp[i]['tanggal'].toString();
+      var arr = tgl.split('-');
+      arrTempLap.add(new classLaporanPerkembangan(
+          new DateTime(int.parse(arr[0].toString()),
+              int.parse(arr[1].toString()), int.parse(arr[2].toString())),
+          double.parse(tmp[i]['berat'].toString()),
+          tmp[i]['keterangan'].toString(),
+          tmp[i]['status'].toString()));
+    }
     session.userlogin = int.parse(user);
     session.role = role;
     session.berat = int.parse(berat);
+    session.arrLaporan = arrTempLap;
     if (role != "") {
       if (role == "member") {
         var temp = jsonDecode(
@@ -166,10 +181,8 @@ class LoginState extends State<Login> {
           preference.setString("role", data[0]['role']);
           preference.setString("berat", data[0]['berat']);
           preference.setString("status", data[0]['status']);
-
           if (data[0]['status'] == "Aktif") {
             // kalau berhasil login maka updateTokenFirebase ke mysql
-
             if (data[0]['role'] == "member") {
               var temp = jsonDecode(
                   preference.getString('cart' + session.userlogin.toString()) ??

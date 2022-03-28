@@ -1,3 +1,4 @@
+import 'package:dietyukapp/LaporanPerkembangan.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'shoppingcart.dart';
@@ -19,6 +20,7 @@ List<ClassPaket> paketSemua = new List();
 ClassAlamat alamat = new ClassAlamat("0", "", "", "", "", "", "", "", "");
 Kota kota = new Kota("", "", "", "", "", "");
 Provinsi prov = new Provinsi("", "");
+List<classLaporanPerkembangan> arrLaporan;
 
 const TextStyle kBodyText = TextStyle(fontSize: 18, color: Colors.white);
 const TextStyle kecil = TextStyle(fontSize: 15, color: Colors.white);

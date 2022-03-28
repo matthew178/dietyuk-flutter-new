@@ -1,3 +1,4 @@
+import 'package:dietyukapp/PilihTestimoni.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
@@ -172,7 +173,7 @@ class DaftarpaketkonsultanState extends State<Daftarpaketkonsultan> {
                 ),
               )),
           SizedBox(
-            height: MediaQuery.of(context).size.height - 156,
+            height: MediaQuery.of(context).size.height - 100,
             child: new ListView.builder(
                 itemCount: arrPaket.length == 0 ? 1 : arrPaket.length,
                 itemBuilder: (context, index) {
@@ -418,6 +419,32 @@ class DaftarpaketkonsultanState extends State<Daftarpaketkonsultan> {
                                         ),
                                       ),
                                     ),
+                                    Container(
+                                        child: Container(
+                                      child: RaisedButton(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(2),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      PilihTestimoni(
+                                                          id: arrPaket[index]
+                                                              .id)));
+                                        },
+                                        color: Colors.lightBlueAccent,
+                                        child: Text(
+                                          'Pilih Testimoni',
+                                          style: TextStyle(
+                                              fontSize: 15.0,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ))
                                   ],
                                 ))));
                   }

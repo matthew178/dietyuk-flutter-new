@@ -39,6 +39,8 @@ class SaldoState extends State<Saldo> {
       print(res.body);
       var data = json.decode(res.body);
       var withdraw = data[0]['withdraw'];
+      var transpaket = data[0]['paket'];
+      var transproduk = data[0]['produk'];
       data = data[0]['topup'];
       String keterangan = "";
       for (var i = 0; i < withdraw.length; i++) {
@@ -53,6 +55,27 @@ class SaldoState extends State<Saldo> {
             "Penarikan Saldo");
         arrTemp.add(databaru);
       }
+      for (var i = 0; i < transpaket.length; i++) {
+        keterangan = "Berhasil";
+        ClassHistoryTransaksi databaru = new ClassHistoryTransaksi(
+            transpaket[i]['totalharga'].toString(),
+            keterangan,
+            transpaket[i]['tanggalbeli'].toString(),
+            "Pembelian Paket " +
+                transpaket[i]['nama_paket'].toString() +
+                " by " +
+                transpaket[i]['username'].toString());
+        arrTemp.add(databaru);
+      }
+      for (var i = 0; i < transproduk.length; i++) {
+        keterangan = "Berhasil";
+        ClassHistoryTransaksi databaru = new ClassHistoryTransaksi(
+            transproduk[i]['total'].toString(),
+            keterangan,
+            transproduk[i]['waktubeli'].toString(),
+            "Pembelian Produk");
+        arrTemp.add(databaru);
+      }
       for (var i = 0; i < data.length; i++) {
         if (data[i]['status'].toString() == "0")
           keterangan = "Proses Verifikasi";
@@ -65,6 +88,7 @@ class SaldoState extends State<Saldo> {
             "Penambahan Saldo");
         arrTemp.add(databaru);
       }
+      arrTemp.sort((a, b) => a.waktu.compareTo(b.waktu));
       setState(() => this.arrHistory = arrTemp);
       print(arrHistory.length.toString() + " data");
       return arrTemp;
@@ -270,13 +294,6 @@ class SaldoState extends State<Saldo> {
                                   fontSize: 24,
                                   color: Colors.black),
                             ),
-                            // Text(
-                            //   "Lihat Semua",
-                            //   style: TextStyle(
-                            //       fontWeight: FontWeight.w700,
-                            //       fontSize: 15,
-                            //       color: Colors.grey[800]),
-                            // )
                           ],
                         ),
                         padding: EdgeInsets.symmetric(horizontal: 32),
@@ -294,7 +311,7 @@ class SaldoState extends State<Saldo> {
                                       child: Text("Tidak Ada Transaksi Saldo"));
                                 } else {
                                   return SizedBox(
-                                      height: 75,
+                                      height: 80,
                                       child: Card(
                                         child: Column(
                                           crossAxisAlignment:
@@ -305,8 +322,7 @@ class SaldoState extends State<Saldo> {
                                                 arrHistory[index].ket ==
                                                         "Penarikan Saldo"
                                                     ? Container(
-                                                        width: MediaQuery.of(
-                                                                        context)
+                                                        width: MediaQuery.of(context)
                                                                     .size
                                                                     .width /
                                                                 2 -
@@ -330,32 +346,57 @@ class SaldoState extends State<Saldo> {
                                                                         .red))
                                                           ],
                                                         ))
-                                                    : Container(
-                                                        width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width /
-                                                                2 -
-                                                            10,
-                                                        padding:
-                                                            EdgeInsets.fromLTRB(
+                                                    : arrHistory[index].ket ==
+                                                            "Penambahan Saldo"
+                                                        ? Container(
+                                                            width: MediaQuery.of(context)
+                                                                        .size
+                                                                        .width /
+                                                                    2 -
+                                                                10,
+                                                            padding: EdgeInsets.fromLTRB(
                                                                 10, 0, 10, 0),
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Text(
-                                                                arrHistory[
-                                                                        index]
-                                                                    .ket,
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        17,
-                                                                    color: Colors
-                                                                        .green))
-                                                          ],
-                                                        )),
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Text(
+                                                                    arrHistory[
+                                                                            index]
+                                                                        .ket,
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            17,
+                                                                        color: Colors
+                                                                            .green))
+                                                              ],
+                                                            ))
+                                                        : Container(
+                                                            width: MediaQuery.of(context)
+                                                                        .size
+                                                                        .width /
+                                                                    2 -
+                                                                10,
+                                                            padding:
+                                                                EdgeInsets.fromLTRB(
+                                                                    10, 0, 10, 0),
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Text(
+                                                                    arrHistory[
+                                                                            index]
+                                                                        .ket,
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            17,
+                                                                        color: Colors
+                                                                            .red))
+                                                              ],
+                                                            )),
                                                 Container(
                                                     width:
                                                         MediaQuery.of(context)
@@ -412,8 +453,7 @@ class SaldoState extends State<Saldo> {
                                                         margin:
                                                             EdgeInsets.fromLTRB(
                                                                 0, 0, 0, 0),
-                                                        width: MediaQuery.of(
-                                                                        context)
+                                                        width: MediaQuery.of(context)
                                                                     .size
                                                                     .width /
                                                                 2 -
@@ -436,34 +476,60 @@ class SaldoState extends State<Saldo> {
                                                                         .red))
                                                           ],
                                                         ))
-                                                    : Container(
-                                                        margin:
-                                                            EdgeInsets.fromLTRB(
-                                                                0, 0, 0, 0),
-                                                        width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width /
-                                                                2 -
-                                                            15,
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .end,
-                                                          children: [
-                                                            Text(
-                                                                "+ Rp. " +
-                                                                    frmt.format(int.parse(arrHistory[
-                                                                            index]
-                                                                        .saldo
-                                                                        .toString())),
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        17,
-                                                                    color: Colors
-                                                                        .green))
-                                                          ],
-                                                        )),
+                                                    : arrHistory[index].ket ==
+                                                            "Penambahan Saldo"
+                                                        ? Container(
+                                                            margin:
+                                                                EdgeInsets.fromLTRB(
+                                                                    0, 0, 0, 0),
+                                                            width: MediaQuery.of(context)
+                                                                        .size
+                                                                        .width /
+                                                                    2 -
+                                                                15,
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .end,
+                                                              children: [
+                                                                Text(
+                                                                    "+ Rp. " +
+                                                                        frmt.format(int.parse(arrHistory[index]
+                                                                            .saldo
+                                                                            .toString())),
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            17,
+                                                                        color: Colors
+                                                                            .green))
+                                                              ],
+                                                            ))
+                                                        : Container(
+                                                            margin:
+                                                                EdgeInsets.fromLTRB(
+                                                                    0, 0, 0, 0),
+                                                            width: MediaQuery.of(context)
+                                                                        .size
+                                                                        .width /
+                                                                    2 -
+                                                                15,
+                                                            child: Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .end,
+                                                              children: [
+                                                                Text(
+                                                                    "- Rp. " +
+                                                                        frmt.format(int.parse(arrHistory[index]
+                                                                            .saldo
+                                                                            .toString())),
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            17,
+                                                                        color: Colors
+                                                                            .red))
+                                                              ],
+                                                            )),
                                               ],
                                             )
                                           ],

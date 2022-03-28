@@ -43,8 +43,14 @@ class _TopUp2State extends State<ShowHtmlPage> {
 
   void backscreen() {
     tambahsaldo();
-    Navigator.push(this.context,
-        MaterialPageRoute(builder: (context) => HomePageMember()));
+    if (session.role == "member")
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil('/member', (Route<dynamic> route) => false);
+    else
+      Navigator.of(context).pushNamedAndRemoveUntil(
+          '/konsultan', (Route<dynamic> route) => false);
+    // Navigator.push(
+    //     this.context, MaterialPageRoute(builder: (context) => Saldo()));
   }
 
   @override

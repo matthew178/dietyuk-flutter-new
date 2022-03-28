@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dietyukapp/chat.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
@@ -33,6 +35,8 @@ class AwalPaketKonsultanState extends State<AwalPaketKonsultan> {
   // List<DetailBeli> detail = new List();
   // List<DetailBeli> tempDetail = new List();
   // List<ClassPerkembangan> arrLaporan = new List();
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  String channel;
   List<ClassAwalPaket> arrTemp = [];
   List<ClassAwalPaket> arrAwal = [];
   TextEditingController timbang = new TextEditingController();
@@ -431,12 +435,14 @@ class AwalPaketKonsultanState extends State<AwalPaketKonsultan> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      EditJadwalBeli(id: id, paket: paket)));
+                                  builder: (context) => Chat(
+                                      username1: session.userlogin.toString(),
+                                      username2: usertemp.id,
+                                      namalawan: usertemp.nama)));
                         },
                         color: Colors.lightBlueAccent,
                         child: Text(
-                          'Chat',
+                          'Konsultasi',
                           style: TextStyle(color: Colors.white),
                         ),
                       ),

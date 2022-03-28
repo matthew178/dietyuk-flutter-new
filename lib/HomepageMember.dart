@@ -1,3 +1,4 @@
+import 'package:dietyukapp/PilihLaporanPelaku.dart';
 import 'package:dietyukapp/daftarpesananmember.dart';
 
 import 'DaftarPaket.dart';
@@ -46,7 +47,9 @@ class HomePageMemberState extends State<HomePageMember> {
   @override
   void initState() {
     super.initState();
-    getProfile();
+    setState(() {
+      getProfile();
+    });
   }
 
   Future<ClassUser> getProfile() async {
@@ -333,7 +336,12 @@ class HomePageMemberState extends State<HomePageMember> {
                             )),
                         GestureDetector(
                             onTap: () {
-                              Fluttertoast.showToast(msg: "Laporan");
+                              Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              PilihLaporanPelaku()))
+                                  .then((value) => getProfile());
                             },
                             child: Card(
                               elevation: 4,

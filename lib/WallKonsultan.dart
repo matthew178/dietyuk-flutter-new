@@ -264,7 +264,7 @@ class WallKonsultanState extends State<WallKonsultan> {
                                   children: [
                                     Stack(children: <Widget>[
                                       new Image.network(session.ipnumber +
-                                          "/" +
+                                          "/gambar/jenis_paket/" +
                                           session.paketSemua[index].gambar),
                                       Positioned.fill(
                                           top: 35,

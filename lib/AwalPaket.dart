@@ -1,3 +1,5 @@
+import 'package:dietyukapp/chat.dart';
+
 import 'JadwalHarian.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'ClassAwalPaket.dart';
@@ -28,6 +30,8 @@ class AwalPaketState extends State<AwalPaket> {
   ClassPaket paketsekarang = new ClassPaket("id", "estimasi", "0", "durasi",
       "status", "", "konsultan", "namapaket1", "deskripsi", "default.jpg");
   String id, paket, status;
+  DateTime tglnow = new DateTime(
+      DateTime.now().year, DateTime.now().month, DateTime.now().day);
   // List<DetailBeli> detail = new List();
   // List<DetailBeli> tempDetail = new List();
   // List<ClassPerkembangan> arrLaporan = new List();
@@ -36,6 +40,7 @@ class AwalPaketState extends State<AwalPaket> {
   TextEditingController timbang = new TextEditingController();
   int durasi = 5;
   int tmp = 1;
+  String idkonsul = "1";
   String foto = "assets/images/awalpage.png";
 
   AwalPaketState(this.id, this.paket, this.status);
@@ -139,7 +144,7 @@ class AwalPaketState extends State<AwalPaket> {
           data[0]['durasi'].toString(),
           data[0]['status'].toString(),
           data[0]['rating'].toString(),
-          data[0]['nama'].toString(),
+          data[0]['username'].toString(),
           data[0]['nama_paket'].toString(),
           data[0]['deskripsi'].toString(),
           data[0]['gambar'].toString());
@@ -149,6 +154,10 @@ class AwalPaketState extends State<AwalPaket> {
         durasi = int.parse(data[0]['durasi'].toString()) ~/ 7 + 1;
       }
       setState(() => this.paketsekarang = arrPaket);
+      setState(() {
+        idkonsul = data[0]['konsultan'].toString();
+      });
+      print(paketsekarang.konsultan);
     }).catchError((err) {
       print(err);
     });
@@ -179,7 +188,7 @@ class AwalPaketState extends State<AwalPaket> {
     }
   }
 
-  void cetakdialog(String idsaatini, statussaatini, idbel, hrike) {
+  void cetakdialog(String idsaatini, statussaatini, idbel, hrike, tanggal) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -227,17 +236,22 @@ class AwalPaketState extends State<AwalPaket> {
                         padding: EdgeInsets.fromLTRB(10, 10, 0, 0),
                         child: new RaisedButton(
                           onPressed: () {
-                            if (timbang.text != "") {
-                              tambahPerkembangan(idsaatini, timbang.text,
-                                  statussaatini, idbel, hrike);
-
+                            if (DateTime.parse(tanggal).compareTo(tglnow) > 0) {
                               Fluttertoast.showToast(
-                                  msg: "Berhasil tambah perkembangan");
-                              Navigator.of(context, rootNavigator: true)
-                                  .pop(true);
+                                  msg: "Belum saatnya melaporkan perkembangan");
                             } else {
-                              Fluttertoast.showToast(
-                                  msg: "Input tidak boleh kosong!");
+                              if (timbang.text != "") {
+                                tambahPerkembangan(idsaatini, timbang.text,
+                                    statussaatini, idbel, hrike);
+
+                                Fluttertoast.showToast(
+                                    msg: "Berhasil tambah perkembangan");
+                                Navigator.of(context, rootNavigator: true)
+                                    .pop(true);
+                              } else {
+                                Fluttertoast.showToast(
+                                    msg: "Input tidak boleh kosong!");
+                              }
                             }
                           },
                           padding: new EdgeInsets.all(16.0),
@@ -355,6 +369,27 @@ class AwalPaketState extends State<AwalPaket> {
                 fit: BoxFit.cover,
               ),
             ),
+            Container(
+              child: RaisedButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(2),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Chat(
+                              username1: session.userlogin.toString(),
+                              username2: idkonsul,
+                              namalawan: paketsekarang.konsultan)));
+                },
+                color: Colors.lightBlueAccent,
+                child: Text(
+                  'Konsultasi',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
             Expanded(
                 flex: 5,
                 child: GridView.count(
@@ -386,7 +421,8 @@ class AwalPaketState extends State<AwalPaket> {
                                     arrTemp[index].id,
                                     arrTemp[index].keterangan,
                                     arrTemp[index].idbeli,
-                                    arrTemp[index].hari);
+                                    arrTemp[index].hari,
+                                    arrTemp[index].tanggal);
                           },
                           child: arrTemp[index].tipe == "hari"
                               ? Card(

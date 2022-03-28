@@ -90,11 +90,13 @@ class LaporanPaketState extends State<LaporanPaket> {
       } else {
         ada = 1;
         for (int i = 0; i < data.length; i++) {
+          Color warna = Color.fromARGB(255, _random.nextInt(256),
+              _random.nextInt(256), _random.nextInt(256));
+          var ketemu = 0;
           for (int j = 0; j < data1.length; j++) {
-            Color warna = Color.fromARGB(255, _random.nextInt(256),
-                _random.nextInt(256), _random.nextInt(256));
             if (data[i]['id_paket'].toString() ==
                 data1[j]['id_paket'].toString()) {
+              ketemu++;
               ClassPaket databaru = ClassPaket(
                   data[i]['id_paket'].toString(),
                   data[i]['estimasiturun'].toString(),
@@ -116,12 +118,13 @@ class LaporanPaketState extends State<LaporanPaket> {
                 arrDetail.add(laporpaket);
               });
               arrPaket.add(databaru);
-            } else {
-              ClassLaporanPaket laporpaket = new ClassLaporanPaket(
-                  data[i]['nama_paket'].toString(), 0, warna);
-              arrLaporan.add(laporpaket);
-              arrDetail.add(laporpaket);
             }
+          }
+          if (ketemu == 0) {
+            ClassLaporanPaket laporpaket = new ClassLaporanPaket(
+                data[i]['nama_paket'].toString(), 0, warna);
+            arrLaporan.add(laporpaket);
+            arrDetail.add(laporpaket);
           }
         }
       }
@@ -179,7 +182,7 @@ class LaporanPaketState extends State<LaporanPaket> {
                 setState(() {
                   arrPaketFav.add(new ClassLaporanPaket(
                       data[i]['nama_paket'].toString(),
-                      double.parse(data3[j]['rating'].toString()),
+                      double.parse(data3[j]['jumlah'].toString()),
                       Colors.green));
                 });
               }
@@ -312,8 +315,10 @@ class LaporanPaketState extends State<LaporanPaket> {
                                   (index) => DataRow(cells: <DataCell>[
                                         DataCell(
                                             Text((index + 1).toString() + ".")),
-                                        DataCell(
-                                            Text(arrLaporan[index].nama_paket)),
+                                        DataCell(Container(
+                                            child: Text(
+                                                arrLaporan[index].nama_paket),
+                                            width: size.width / 4.5)),
                                         DataCell(Text(arrLaporan[index]
                                             .jumlahlaporan
                                             .toString()))
@@ -384,8 +389,10 @@ class LaporanPaketState extends State<LaporanPaket> {
                                       (index) => DataRow(cells: <DataCell>[
                                             DataCell(Text(
                                                 (index + 1).toString() + ".")),
-                                            DataCell(Text(
-                                                arrDetail[index].nama_paket)),
+                                            DataCell(Container(
+                                                child: Text(arrDetail[index]
+                                                    .nama_paket),
+                                                width: size.width / 4.5)),
                                             DataCell(Text(arrDetail[index]
                                                 .jumlahlaporan
                                                 .toString()))
@@ -430,8 +437,10 @@ class LaporanPaketState extends State<LaporanPaket> {
                                       (index) => DataRow(cells: <DataCell>[
                                             DataCell(Text(
                                                 (index + 1).toString() + ".")),
-                                            DataCell(Text(
-                                                arrPaketFav[index].nama_paket)),
+                                            DataCell(Container(
+                                                child: Text(arrPaketFav[index]
+                                                    .nama_paket),
+                                                width: size.width / 4.5)),
                                             DataCell(Row(
                                               children: [
                                                 Text(arrPaketFav[index]
@@ -473,8 +482,10 @@ class LaporanPaketState extends State<LaporanPaket> {
                                       (index) => DataRow(cells: <DataCell>[
                                             DataCell(Text(
                                                 (index + 1).toString() + ".")),
-                                            DataCell(Text(arrPaketBest[index]
-                                                .nama_paket)),
+                                            DataCell(Container(
+                                                child: Text(arrPaketBest[index]
+                                                    .nama_paket),
+                                                width: size.width / 4.5)),
                                             DataCell(Row(
                                               children: [
                                                 Text(arrPaketBest[index]

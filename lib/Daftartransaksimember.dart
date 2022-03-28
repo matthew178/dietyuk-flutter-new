@@ -481,7 +481,7 @@ class DaftartransaksimemberState extends State<Daftartransaksimember> {
                       Container(
                         child: new RaisedButton(
                           onPressed: () {
-                            laporKonsultan();
+                            laporKonsultan(idbeli);
                           },
                           padding: new EdgeInsets.all(16.0),
                           color: Colors.red,
@@ -503,7 +503,27 @@ class DaftartransaksimemberState extends State<Daftartransaksimember> {
         });
   }
 
-  void laporKonsultan() {
+  void submitReport(String idtrans) async {
+    Map paramData = {'idtrans': idtrans, 'alasan': keteranganlaporan.text};
+    var parameter = json.encode(paramData);
+    http
+        .post(Uri.parse(session.ipnumber + "/submitReport"),
+            headers: {"Content-Type": "application/json"}, body: parameter)
+        .then((res) {
+      var data = json.decode(res.body);
+      data = data[0]['pesan'];
+      if (data == "Sudah pernah direport") {
+        Fluttertoast.showToast(
+            msg: "Sudah pernah melakukan report untuk transaksi ini");
+      } else {
+        Fluttertoast.showToast(msg: "Berhasil report konsultan");
+      }
+    }).catchError((err) {
+      print(err);
+    });
+  }
+
+  void laporKonsultan(String idtrans) {
     AlertDialog dialog = new AlertDialog(
       content: new Container(
         width: 260.0,
@@ -545,6 +565,7 @@ class DaftartransaksimemberState extends State<Daftartransaksimember> {
                   Container(
                     child: new RaisedButton(
                       onPressed: () {
+                        submitReport(idtrans);
                         Navigator.of(context, rootNavigator: true).pop(true);
                       },
                       padding: new EdgeInsets.all(16.0),

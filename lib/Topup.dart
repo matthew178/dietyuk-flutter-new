@@ -99,7 +99,7 @@ class TopupState extends State<Topup> {
   Future openXendit(double amount) async {
     print("masuk open xendit");
     var uname =
-        'xnd_development_tU93YGYMu0kc4YrPAipFA0OcAsR2TIvWhprXbRQWduq7Sj6QsvEJq28IMnYCO9x';
+        'xnd_development_uIbnngi6pnPy2Uq14rscFa7pytaYDduESDT1aInIJQ7KchKYn5ytYBLt6lBgCom';
     var pword = '';
     var authn = 'Basic ' + base64Encode(utf8.encode('$uname:'));
     print(uname);

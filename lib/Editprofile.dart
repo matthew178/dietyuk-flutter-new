@@ -38,7 +38,7 @@ class EditprofileState extends State<Editprofile> {
 
   void initState() {
     super.initState();
-    // getProfile();
+    getProfile();
     getProvinsi();
   }
 
@@ -55,7 +55,10 @@ class EditprofileState extends State<Editprofile> {
             data[i]['nama_provinsi'].toString());
         if (data[i]['id_provinsi'].toString() ==
             userprofile.provinsi.toString()) {
-          setState(() => prov = prv);
+          setState(() {
+            prov = prv;
+            getKota(int.parse(prov.id));
+          });
         }
         tempProvinsi.add(prv);
       }
@@ -93,8 +96,6 @@ class EditprofileState extends State<Editprofile> {
   Future<List<Kota>> getKota(int provinsi) async {
     city = null;
     List<Kota> tempKota = new List();
-    Kota kot = new Kota(
-        "id", "provinsi", "namaprovinsi", "tipe", "namakota", "kodepos");
     Map paramData = {'prov': provinsi};
     var parameter = json.encode(paramData);
     http
@@ -104,14 +105,20 @@ class EditprofileState extends State<Editprofile> {
       var data = json.decode(res.body);
       data = data[0]['kota'];
       for (int i = 0; i < data.length; i++) {
-        kot = Kota(
+        Kota kta = new Kota(
             data[i]['id_kota'].toString(),
             data[i]['id_provinsi'].toString(),
             data[i]['provinsi'].toString(),
             data[i]['tipe'].toString(),
             data[i]['nama_kota'].toString(),
             data[i]['kodepos'].toString());
-        tempKota.add(kot);
+        if (kta.id.toString() == userprofile.kota.toString()) {
+          setState(() {
+            city = kta;
+            print("Masuk sini");
+          });
+        }
+        tempKota.add(kta);
       }
       setState(() => this.arrKota = tempKota);
       return arrKota;
@@ -164,6 +171,8 @@ class EditprofileState extends State<Editprofile> {
           Navigator.pushNamed(this.context, "/member");
         else
           Navigator.pushNamed(this.context, "/konsultan");
+
+        Fluttertoast.showToast(msg: "Berhasil Update Profile");
       }).catchError((err) {
         print(err);
       });
@@ -279,6 +288,7 @@ class EditprofileState extends State<Editprofile> {
               child: TextFormField(
                 controller: email,
                 keyboardType: TextInputType.text,
+                enabled: false,
                 autofocus: true,
                 decoration: InputDecoration(labelText: "Email", hintText: ""),
               ),
@@ -331,78 +341,74 @@ class EditprofileState extends State<Editprofile> {
               ),
             ),
           ),
-          userprofile.role == "konsultan"
-              ? Container(
-                  padding: EdgeInsets.fromLTRB(20, 10, 10, 0),
-                  height: 100,
-                  child: Row(
-                    children: [
-                      Expanded(
-                          child: DropdownButton<Provinsi>(
-                        // style: Theme.of(context).textTheme.title,
-                        hint: Text("Provinsi"),
+          Container(
+              padding: EdgeInsets.fromLTRB(20, 10, 10, 0),
+              height: 100,
+              child: Row(
+                children: [
+                  Expanded(
+                      child: DropdownButton<Provinsi>(
+                    // style: Theme.of(context).textTheme.title,
+                    hint: Text("Provinsi"),
+                    value: prov,
+                    onChanged: (Provinsi value) {
+                      setState(() => {
+                            this.prov = value,
+                            city = null,
+                            getKota(int.parse(value.id))
+                          });
+                    },
+                    items: arrProvinsi.map((Provinsi prov) {
+                      return DropdownMenuItem<Provinsi>(
                         value: prov,
-                        onChanged: (Provinsi value) {
-                          setState(() => {
-                                this.prov = value,
-                                city = null,
-                                getKota(int.parse(value.id))
-                              });
-                        },
-                        items: arrProvinsi.map((Provinsi prov) {
-                          return DropdownMenuItem<Provinsi>(
-                            value: prov,
-                            child: Row(
-                              children: <Widget>[
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  prov.nama,
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                              ],
+                        child: Row(
+                          children: <Widget>[
+                            SizedBox(
+                              width: 10,
                             ),
-                          );
-                        }).toList(),
-                      )),
-                    ],
-                  ))
-              : SizedBox(),
-          userprofile.role == "konsultan"
-              ? Container(
-                  padding: EdgeInsets.fromLTRB(20, 10, 10, 0),
-                  height: 100,
-                  child: Row(
-                    children: [
-                      Expanded(
-                          child: DropdownButton<Kota>(
-                        // style: Theme.of(context).textTheme.title,
-                        hint: Text("Kota"),
-                        value: city,
-                        onChanged: (Kota value) {
-                          setState(() => {this.city = value});
-                        },
-                        items: arrKota.map((Kota tempKot) {
-                          return DropdownMenuItem<Kota>(
-                            value: tempKot,
-                            child: Row(
-                              children: <Widget>[
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  tempKot.tipe + " " + tempKot.namakota,
-                                  style: TextStyle(color: Colors.black),
-                                ),
-                              ],
+                            Text(
+                              prov.nama,
+                              style: TextStyle(color: Colors.black),
                             ),
-                          );
-                        }).toList(),
-                      )),
-                    ],
-                  ))
-              : SizedBox(),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  )),
+                ],
+              )),
+          Container(
+              padding: EdgeInsets.fromLTRB(20, 10, 10, 0),
+              height: 100,
+              child: Row(
+                children: [
+                  Expanded(
+                      child: DropdownButton<Kota>(
+                    // style: Theme.of(context).textTheme.title,
+                    hint: Text("Kota"),
+                    value: city,
+                    onChanged: (Kota value) {
+                      setState(() => {this.city = value});
+                    },
+                    items: arrKota.map((Kota tempKot) {
+                      return DropdownMenuItem<Kota>(
+                        value: tempKot,
+                        child: Row(
+                          children: <Widget>[
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              tempKot.tipe + " " + tempKot.namakota,
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  )),
+                ],
+              )),
           Container(
             padding: EdgeInsets.fromLTRB(20, 10, 10, 0),
             width: MediaQuery.of(context).size.width,
