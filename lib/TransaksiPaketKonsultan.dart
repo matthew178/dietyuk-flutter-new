@@ -131,7 +131,7 @@ class TransaksiPaketKonsultanState extends State<TransaksiPaketKonsultan> {
                       child: Column(
                         children: [
                           Container(
-                              padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
+                              padding: EdgeInsets.fromLTRB(5, 20, 0, 0),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -179,7 +179,7 @@ class TransaksiPaketKonsultanState extends State<TransaksiPaketKonsultan> {
                               )),
                           SizedBox(height: 10),
                           SizedBox(
-                              height: size.height - 210,
+                              height: size.height - 215,
                               child: new ListView.builder(
                                   itemCount: onproses.length == 0
                                       ? 0
@@ -216,9 +216,7 @@ class TransaksiPaketKonsultanState extends State<TransaksiPaketKonsultan> {
                                                                   0, 10),
                                                           child: Image.asset(
                                                               'assets/images/progress.png')),
-                                                      SizedBox(
-                                                        width: 30,
-                                                      ),
+                                                      SizedBox(width: 25),
                                                       Container(
                                                         child: Column(
                                                           children: [
@@ -243,7 +241,7 @@ class TransaksiPaketKonsultanState extends State<TransaksiPaketKonsultan> {
                                                           ],
                                                         ),
                                                       ),
-                                                      SizedBox(width: 50),
+                                                      SizedBox(width: 25),
                                                       Container(
                                                         child: Column(
                                                           children: [
@@ -266,7 +264,7 @@ class TransaksiPaketKonsultanState extends State<TransaksiPaketKonsultan> {
                                                           ],
                                                         ),
                                                       ),
-                                                      SizedBox(width: 35),
+                                                      SizedBox(width: 25),
                                                       SizedBox(
                                                           height: 50,
                                                           width: 50,
@@ -295,9 +293,7 @@ class TransaksiPaketKonsultanState extends State<TransaksiPaketKonsultan> {
                                                                           10),
                                                               child: Image.asset(
                                                                   'assets/images/progress.png')),
-                                                          SizedBox(
-                                                            width: 30,
-                                                          ),
+                                                          SizedBox(width: 25),
                                                           Container(
                                                             child: Column(
                                                               children: [
@@ -326,7 +322,7 @@ class TransaksiPaketKonsultanState extends State<TransaksiPaketKonsultan> {
                                                               ],
                                                             ),
                                                           ),
-                                                          SizedBox(width: 50),
+                                                          SizedBox(width: 25),
                                                           Container(
                                                             child: Column(
                                                               children: [
@@ -346,12 +342,12 @@ class TransaksiPaketKonsultanState extends State<TransaksiPaketKonsultan> {
                                                               ],
                                                             ),
                                                           ),
-                                                          SizedBox(width: 35),
+                                                          SizedBox(width: 25),
                                                           SizedBox(
                                                               height: 50,
                                                               width: 50,
                                                               child: Image.asset(
-                                                                  'assets/images/warningkuning.png')),
+                                                                  'assets/images/warningkuning.png'))
                                                         ],
                                                       ))
                                                   : Card(
@@ -368,9 +364,7 @@ class TransaksiPaketKonsultanState extends State<TransaksiPaketKonsultan> {
                                                                           10),
                                                               child: Image.asset(
                                                                   'assets/images/progress.png')),
-                                                          SizedBox(
-                                                            width: 30,
-                                                          ),
+                                                          SizedBox(width: 25),
                                                           Container(
                                                             child: Column(
                                                               children: [
@@ -399,7 +393,7 @@ class TransaksiPaketKonsultanState extends State<TransaksiPaketKonsultan> {
                                                               ],
                                                             ),
                                                           ),
-                                                          SizedBox(width: 50),
+                                                          SizedBox(width: 25),
                                                           Container(
                                                             child: Column(
                                                               children: [
@@ -424,12 +418,12 @@ class TransaksiPaketKonsultanState extends State<TransaksiPaketKonsultan> {
                                                               ],
                                                             ),
                                                           ),
-                                                          SizedBox(width: 35),
+                                                          SizedBox(width: 25),
                                                           SizedBox(
                                                               height: 50,
                                                               width: 50,
                                                               child: Image.asset(
-                                                                  'assets/images/good.png')),
+                                                                  'assets/images/good.png'))
                                                         ],
                                                       )));
                                     }
