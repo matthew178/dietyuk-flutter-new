@@ -144,6 +144,10 @@ flutter:
     - assets/images/Laporan_PPaket.png
     - assets/images/Laporan_PProduk.png
     - assets/images/Laporan_Saldo.png
+    - assets/images/good.png
+    - assets/images/warningkuning.png
+    - assets/images/warning.png
+
 
 
   # The following line ensures that the Material Icons font is

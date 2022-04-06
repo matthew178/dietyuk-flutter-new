@@ -500,7 +500,12 @@ class HomekonsultanState extends State<Homekonsultan> {
                               ),
                               GestureDetector(
                                   onTap: () {
-                                    Fluttertoast.showToast(msg: "Laporan");
+                                    Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    PilihLaporanKonsultan()))
+                                        .then((value) => getProfile());
                                   },
                                   child: Card(
                                     elevation: 4,

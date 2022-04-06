@@ -33,6 +33,7 @@ class DaftartransaksiState extends State<Daftartransaksi> {
             headers: {"Content-Type": "application/json"}, body: parameter)
         .then((res) {
       var data = json.decode(res.body);
+      var hitung = data[0]['hitung'];
       data = data[0]['transaksi'];
       for (int i = 0; i < data.length; i++) {
         Transaksibelipaket databaru = Transaksibelipaket(
@@ -49,7 +50,9 @@ class DaftartransaksiState extends State<Daftartransaksi> {
             data[i]['nama_paket'].toString(),
             data[i]['nama'].toString(),
             data[i]['statuskonsultan'].toString());
+        databaru.perhatian = hitung[i].toString();
         arrTrans.add(databaru);
+        print("ini perhatian : " + arrTrans[i].perhatian);
       }
       setState(() => this.onproses = arrTrans);
       return arrTrans;
@@ -144,52 +147,163 @@ class DaftartransaksiState extends State<Daftartransaksi> {
                                                     paket: onproses[index]
                                                         .idpaket)));
                                   },
-                                  child: Card(
-                                      child: Row(
-                                    children: [
-                                      Container(
-                                          padding: EdgeInsets.fromLTRB(
-                                              10, 10, 0, 10),
-                                          child: Image.asset(
-                                              'assets/images/progress.png')),
-                                      SizedBox(
-                                        width: 30,
-                                      ),
-                                      Container(
-                                        child: Column(
+                                  child: int.parse(onproses[index].perhatian) <
+                                          0.3
+                                      ? Card(
+                                          child: Row(
                                           children: [
                                             Container(
-                                                child: Text(
-                                              onproses[index].namapaket,
-                                              style: TextStyle(
-                                                fontSize: 20,
+                                                padding: EdgeInsets.fromLTRB(
+                                                    10, 10, 0, 10),
+                                                child: Image.asset(
+                                                    'assets/images/progress.png')),
+                                            SizedBox(
+                                              width: 30,
+                                            ),
+                                            Container(
+                                              child: Column(
+                                                children: [
+                                                  Container(
+                                                      child: Text(
+                                                    onproses[index].namapaket,
+                                                    style: TextStyle(
+                                                      color: Colors.red,
+                                                      fontSize: 20,
+                                                    ),
+                                                  )),
+                                                  Container(
+                                                      child: Text(
+                                                          onproses[index]
+                                                              .namakonsultan))
+                                                ],
                                               ),
-                                            )),
+                                            ),
+                                            SizedBox(width: 50),
                                             Container(
-                                                child: Text(onproses[index]
-                                                    .namakonsultan))
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(width: 50),
-                                      Container(
-                                        child: Column(
-                                          children: [
-                                            Container(
-                                                child: Text(
-                                              "Tanggal Selesai",
-                                              style: TextStyle(
-                                                fontSize: 10,
+                                              child: Column(
+                                                children: [
+                                                  Container(
+                                                      child: Text(
+                                                    "Tanggal Selesai",
+                                                    style: TextStyle(
+                                                      fontSize: 10,
+                                                    ),
+                                                  )),
+                                                  Container(
+                                                      child: Text(
+                                                          onproses[index]
+                                                              .tanggalselesai))
+                                                ],
                                               ),
-                                            )),
-                                            Container(
-                                                child: Text(onproses[index]
-                                                    .tanggalselesai))
+                                            ),
                                           ],
-                                        ),
-                                      ),
-                                    ],
-                                  )));
+                                        ))
+                                      : int.parse(onproses[index].perhatian) >
+                                                  0.3 &&
+                                              int.parse(onproses[index]
+                                                      .perhatian) <
+                                                  0.6
+                                          ? Card(
+                                              child: Row(
+                                              children: [
+                                                Container(
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            10, 10, 0, 10),
+                                                    child: Image.asset(
+                                                        'assets/images/progress.png')),
+                                                SizedBox(
+                                                  width: 30,
+                                                ),
+                                                Container(
+                                                  child: Column(
+                                                    children: [
+                                                      Container(
+                                                          child: Text(
+                                                        onproses[index]
+                                                            .namapaket,
+                                                        style: TextStyle(
+                                                          color: Colors.yellow,
+                                                          fontSize: 20,
+                                                        ),
+                                                      )),
+                                                      Container(
+                                                          child: Text(onproses[
+                                                                  index]
+                                                              .namakonsultan))
+                                                    ],
+                                                  ),
+                                                ),
+                                                SizedBox(width: 50),
+                                                Container(
+                                                  child: Column(
+                                                    children: [
+                                                      Container(
+                                                          child: Text(
+                                                        "Tanggal Selesai",
+                                                        style: TextStyle(
+                                                          fontSize: 10,
+                                                        ),
+                                                      )),
+                                                      Container(
+                                                          child: Text(onproses[
+                                                                  index]
+                                                              .tanggalselesai))
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ))
+                                          : Card(
+                                              child: Row(
+                                              children: [
+                                                Container(
+                                                    padding:
+                                                        EdgeInsets.fromLTRB(
+                                                            10, 10, 0, 10),
+                                                    child: Image.asset(
+                                                        'assets/images/progress.png')),
+                                                SizedBox(
+                                                  width: 30,
+                                                ),
+                                                Container(
+                                                  child: Column(
+                                                    children: [
+                                                      Container(
+                                                          child: Text(
+                                                        onproses[index]
+                                                            .namapaket,
+                                                        style: TextStyle(
+                                                          fontSize: 20,
+                                                        ),
+                                                      )),
+                                                      Container(
+                                                          child: Text(onproses[
+                                                                  index]
+                                                              .namakonsultan))
+                                                    ],
+                                                  ),
+                                                ),
+                                                SizedBox(width: 50),
+                                                Container(
+                                                  child: Column(
+                                                    children: [
+                                                      Container(
+                                                          child: Text(
+                                                        "Tanggal Selesai",
+                                                        style: TextStyle(
+                                                          fontSize: 10,
+                                                        ),
+                                                      )),
+                                                      Container(
+                                                          child: Text(onproses[
+                                                                  index]
+                                                              .tanggalselesai))
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            )));
                             }
                           }),
                     ),

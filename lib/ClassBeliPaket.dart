@@ -11,7 +11,8 @@ class Transaksibelipaket {
       status,
       namapaket,
       namakonsultan,
-      statuskonsultan;
+      statuskonsultan,
+      perhatian;
 
   Transaksibelipaket(
       this.id,

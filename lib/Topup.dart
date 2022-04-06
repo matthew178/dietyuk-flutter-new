@@ -97,14 +97,10 @@ class TopupState extends State<Topup> {
   }
 
   Future openXendit(double amount) async {
-    print("masuk open xendit");
     var uname =
         'xnd_development_uIbnngi6pnPy2Uq14rscFa7pytaYDduESDT1aInIJQ7KchKYn5ytYBLt6lBgCom';
     var pword = '';
     var authn = 'Basic ' + base64Encode(utf8.encode('$uname:'));
-    print(uname);
-    print("-----------------------------------------------------------------");
-    print(authn);
     var data = {
       'external_id': "testing",
       'payer_email': "testing@gmail.com",
@@ -116,18 +112,6 @@ class TopupState extends State<Topup> {
     if (res.statusCode != 200)
       throw Exception('post error: statusCode= ${res.statusCode}');
     var resData = jsonDecode(res.body);
-    print(resData);
-    print("invoice url = " + resData["invoice_url"]);
-    /*
-    databaseReference.child("TopUp/${_userProfile.key}/${resData["id"]}").update({
-      'amount': amount,
-      'status': "PENDING",
-      'url': resData["invoice_url"],
-      'timestamp': DateTime.now().millisecondsSinceEpoch
-    });
-    */
-    //launchWebViewExample(resData["invoice_url"].toString());
-    //updatesaldo();
     String url = resData["invoice_url"].toString();
     Navigator.push(
       context,

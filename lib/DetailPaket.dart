@@ -329,7 +329,7 @@ class DetailPaketState extends State<DetailPaket> {
                   Container(
                     child: new RaisedButton(
                       onPressed: () {
-                        int.parse(userprofile.saldo) >
+                        int.parse(userprofile.saldo) >=
                                 int.parse(paketsekarang.harga)
                             ? beliPaket()
                             : Fluttertoast.showToast(
