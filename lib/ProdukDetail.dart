@@ -66,6 +66,7 @@ class ProdukDetailState extends State<ProdukDetail> {
             headers: {"Content-Type": "application/json"}, body: parameter)
         .then((res) {
       var hsl = json.decode(res.body);
+      print("ini : " + hsl);
       hsl = hsl[0]['produk'];
       for (int i = 0; i < hsl.length; i++) {
         ClassProduk databaru = new ClassProduk(
